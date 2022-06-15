@@ -1,7 +1,135 @@
+* {
+  font-family:
+    Fenix,
+    serif;
+}
+
+.hidden {
+  display: none !important;
+}
+
 .search-section {
-  background-image: url("images/background.jpg");
+  background-image: url("../images/background.jpg");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  height: 1000px;
 }
 
 .heading {
   color: white;
+  padding-top: 300px;
+  padding-left: 200px;
+  font-size: 60px;
+  font-family:
+    Fenix,
+    serif;
+  font-weight: normal;
+}
+
+.row {
+  display: flex;
+  flex-wrap: warp;
+}
+
+.city-name {
+  background-color: white;
+  margin-left: 200px;
+  color: black;
+  padding: 15px;
+  font-size: 18px;
+  border-radius: 10px;
+  border: none;
+}
+
+::placeholder {
+  color: black;
+}
+
+.add-padding-right {
+  padding-right: 10px;
+}
+
+.chose-state {
+  background-color: white;
+  border: none;
+  width: 165px;
+  margin-left: 15px;
+  color: black;
+  font-size: 18px;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+.add-padding-left {
+  padding-left: 10px;
+}
+
+.search-box {
+  background-color: black;
+  margin-left: 15px;
+  color: white;
+  font-size: 18px;
+  padding: 15px 30px;
+  border-radius: 10px;
+  border: none;
+}
+
+select {
+  appearance: none;
+}
+
+.listing-heading {
+  padding-left: 30px;
+}
+
+.blue-area {
+  background-color: #f4f8fc;
+  border-radius: 50px;
+}
+
+.column-third {
+  width: 33.33%;
+}
+
+.column-full {
+  width: 100%;
+}
+
+.listing {
+  border-radius: 20px;
+  background-color: white;
+  width: 250px;
+  margin-top: 50px;
+}
+
+.listing-img {
+  border-radius: 20px 20px 0 0;
+  height: 200px;
+}
+
+.container {
+  max-width: 1200px;
+  margin: auto;
+}
+
+.listing-price {
+  font-size: 25px;
+  margin-top: 5px;
+  margin-left: 10px;
+  margin-bottom: 0;
+}
+
+.street {
+  font-size: 15px;
+  margin: 5px;
+  margin-top: 5px;
+  margin-left: 10px;
+}
+
+.zip-code {
+  font-size: 15px;
+  margin: 5px;
+  margin-top: 5px;
+  margin-left: 10px;
+  padding-bottom: 20px;
 }

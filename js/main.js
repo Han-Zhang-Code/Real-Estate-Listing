@@ -10,15 +10,7 @@ function submited(event) {
   event.preventDefault();
   var cityname = $cityName.value;
   var state = $state.value;
-
-  for (var i = 0; i < cityname.length; i++) {
-    if (cityname[i] === ' ') {
-      cityname[i] = '%20';
-    }
-  }
-
   const data = null;
-
   const xhr = new XMLHttpRequest();
   xhr.withCredentials = true;
 
@@ -33,6 +25,7 @@ function submited(event) {
     for (var i = 0; i < xhr.response.properties.length; i++) {
       var $columnThird = document.createElement('div');
       $columnThird.setAttribute('class', 'column-third');
+      $columnThird.setAttribute('data-propertyID', xhr.response.properties[i].property_id);
       var $listing = document.createElement('div');
       $listing.setAttribute('class', 'listing');
       var $listingImage = document.createElement('img');

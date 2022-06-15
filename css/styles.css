@@ -82,6 +82,10 @@
   border: none;
 }
 
+.search-box:hover {
+  cursor: pointer;
+}
+
 select {
   appearance: none;
 }
@@ -141,6 +145,11 @@ select {
   margin-top: 5px;
   margin-left: 10px;
   padding-bottom: 20px;
+}
+
+.hover-effects:hover {
+  transform: scale(1.1);
+  cursor: pointer;
 }
 
 @media only screen and (max-width: 400px) {

@@ -8,13 +8,13 @@ var $listingRow = document.querySelector('#listing');
 
 function submited(event) {
   event.preventDefault();
-  var cityname = $cityName.value;
+  var cityName = $cityName.value;
   var state = $state.value;
   const data = null;
   const xhr = new XMLHttpRequest();
   xhr.withCredentials = true;
 
-  xhr.open('GET', 'https://real-estate12.p.rapidapi.com/listings/sale?state=' + state + '&city=' + cityname + '&page=1');
+  xhr.open('GET', 'https://real-estate12.p.rapidapi.com/listings/sale?state=' + state + '&city=' + cityName + '&page=1');
   xhr.responseType = 'json';
   xhr.setRequestHeader('X-RapidAPI-Key', 'd63b704875msheafa5d6283a4eb9p1edc65jsn7724aaf65392');
   xhr.setRequestHeader('X-RapidAPI-Host', 'real-estate12.p.rapidapi.com');
@@ -24,7 +24,7 @@ function submited(event) {
   function loadAjax() {
     for (var i = 0; i < xhr.response.properties.length; i++) {
       var $columnThird = document.createElement('div');
-      $columnThird.setAttribute('class', 'column-third');
+      $columnThird.setAttribute('class', 'column-third hover-effects');
       $columnThird.setAttribute('data-propertyID', xhr.response.properties[i].property_id);
       var $listing = document.createElement('div');
       $listing.setAttribute('class', 'listing');
@@ -70,5 +70,5 @@ $listingBack.addEventListener('click', goBackToHome);
 function goBackToHome(event) {
   $listingSection.className = 'listing-section hidden';
   $searchSection.className = 'search-section ';
-
+  window.location.reload();
 }

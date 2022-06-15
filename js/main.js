@@ -70,5 +70,10 @@ $listingBack.addEventListener('click', goBackToHome);
 function goBackToHome(event) {
   $listingSection.className = 'listing-section hidden';
   $searchSection.className = 'search-section ';
-  window.location.reload();
+  empty($listingRow);
+}
+function empty(element) {
+  while (element.firstElementChild) {
+    element.firstElementChild.remove();
+  }
 }

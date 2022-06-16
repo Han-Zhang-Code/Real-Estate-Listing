@@ -24,7 +24,7 @@ function submited(event) {
   function loadAjax() {
     for (var i = 0; i < xhr.response.properties.length; i++) {
       var $columnThird = document.createElement('div');
-      $columnThird.setAttribute('class', 'column-third');
+      $columnThird.setAttribute('class', 'column-third add-align-items row');
       $columnThird.setAttribute('data-propertyID', xhr.response.properties[i].property_id);
       var $listing = document.createElement('div');
       $listing.setAttribute('class', 'listing  hover-effects');

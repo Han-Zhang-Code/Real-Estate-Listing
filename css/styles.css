@@ -82,16 +82,13 @@
   border: none;
 }
 
-.search-box:hover {
-  cursor: pointer;
-}
-
 select {
   appearance: none;
 }
 
 .listing-heading {
   padding-left: 30px;
+  color: #143656;
 }
 
 .blue-area {
@@ -150,6 +147,84 @@ select {
 .hover-effects:hover {
   transform: scale(1.1);
   cursor: pointer;
+}
+
+.hover-effect:hover {
+  transform: scale(1.1);
+}
+
+.column-half {
+  width: 50%;
+}
+
+.add-padding-top {
+  padding-top: 50px;
+}
+
+.detail-images {
+  padding-right: 100px;
+}
+
+.add-align-items {
+  align-items: center;
+  justify-content: center;
+}
+
+.detail-price {
+  font-size: 41px;
+  font-weight: bold;
+  padding-bottom: 8px;
+  padding-left: 10px;
+}
+
+.detail-address {
+  font-size: 22px;
+  font-weight: bold;
+  padding-bottom: 20px;
+  padding-left: 10px;
+}
+
+.add-overlay {
+  background-color: #f1f1f1;
+  border-radius: 5px;
+  width: 250px;
+  margin: 10px;
+}
+
+.add-color {
+  color: #143656;
+}
+
+.detail-title {
+  font-size: 12px;
+}
+
+.detail-content {
+  font-size: 15px;
+}
+
+.description-title {
+  font-weight: bold;
+  font-size: 14px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-left: 10px;
+}
+
+.description-content {
+  font-size: 14px;
+  padding-left: 10px;
+}
+
+.add-space-between {
+  justify-content: space-between;
+}
+
+.average-price {
+  padding-left: 10px;
+  font-size: 25px;
+  font-weight: bold;
+  padding-bottom: 30px;
 }
 
 @media only screen and (max-width: 400px) {

@@ -24,10 +24,10 @@ function submited(event) {
   function loadAjax() {
     for (var i = 0; i < xhr.response.properties.length; i++) {
       var $columnThird = document.createElement('div');
-      $columnThird.setAttribute('class', 'column-third hover-effects');
+      $columnThird.setAttribute('class', 'column-third');
       $columnThird.setAttribute('data-propertyID', xhr.response.properties[i].property_id);
       var $listing = document.createElement('div');
-      $listing.setAttribute('class', 'listing');
+      $listing.setAttribute('class', 'listing  hover-effects');
       var $listingImage = document.createElement('img');
       $listingImage.setAttribute('src', xhr.response.properties[i].primary_photo.href);
       $listingImage.setAttribute('class', 'columnfull listing-img');
@@ -43,7 +43,6 @@ function submited(event) {
       var $zipCode = document.createElement('p');
       $zipCode.setAttribute('class', 'zip-code');
       $zipCode.textContent = xhr.response.properties[i].location.address.state_code + ', ' + xhr.response.properties[i].location.address.postal_code;
-
       $listingRow.appendChild($columnThird);
       $columnThird.appendChild($listing);
       $listing.appendChild($listingImage);

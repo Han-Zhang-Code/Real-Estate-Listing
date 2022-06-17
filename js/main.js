@@ -428,7 +428,7 @@ function renderListingDetail() {
         data.count = 0;
       }
 
-    }, 1000);
+    }, 3000);
     for (var i = 0; i < $selectAllIcon.length; i++) {
       if (event.target.matches('i')) {
         $selectAllIcon[i].className = 'fas fa-circle fa-2xs add-padding for-Dom-select-detail';
@@ -456,7 +456,7 @@ function renderListingDetail() {
       data.count = 0;
     }
 
-  }, 1000);
+  }, 3000);
 
   return $listingDetailContainer;
 

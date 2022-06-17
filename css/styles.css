@@ -34,7 +34,7 @@
   flex-wrap: wrap;
 }
 
-.inline {
+.search-form {
   margin-left: 10%;
 }
 
@@ -401,7 +401,7 @@ select {
     background-position: 45% 100%;
   }
 
-  .inline {
+  .search-form {
     margin-left: 5%;
     margin-top: 5%;
   }

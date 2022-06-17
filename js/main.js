@@ -1,7 +1,7 @@
 /* global data */
 var $cityName = document.querySelector('.city-name');
 var $state = document.querySelector('.chose-state');
-var $submit = document.querySelector('.search-section');
+var $submit = document.querySelector('.search-form');
 
 $submit.addEventListener('submit', submited);
 
@@ -32,6 +32,7 @@ function submited(event) {
   $searchSection.className = 'search-section hidden';
   $listingSection.className = 'listing-section';
   $listingDetailRow.className = 'listing-detail hidden';
+  $submit.reset();
 
 }
 

@@ -130,6 +130,11 @@ select {
   margin-bottom: 0;
 }
 
+.edit-heart {
+  font-size: 25px;
+  padding-right: 5%;
+}
+
 .street {
   font-size: 15px;
   margin: 5px;
@@ -180,6 +185,13 @@ select {
 .add-align-items {
   align-items: center;
   justify-content: center;
+}
+
+.edit-detail-heart {
+  font-size: 35px;
+  padding-bottom: 8px;
+  padding-right: 5%;
+  color: #143656;
 }
 
 .detail-price {
@@ -237,6 +249,11 @@ select {
 
 .add-space-between {
   justify-content: space-between;
+}
+
+.favorite {
+  color: #143656;
+  padding-right: 3%;
 }
 
 .average-price {
@@ -403,5 +420,12 @@ select {
 
   .column-third {
     width: 100%;
+  }
+
+  .edit-detail-heart {
+    font-size: 30px;
+    padding-bottom: 10px;
+    padding-right: 5%;
+    color: #143656;
   }
 }

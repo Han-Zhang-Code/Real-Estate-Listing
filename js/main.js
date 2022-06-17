@@ -101,9 +101,14 @@ function renderListLising() {
       $listingImage.setAttribute('class', 'columnfull listing-img mouse-hover');
     }
     var $listingPriceDiv = document.createElement('div');
+    $listingPriceDiv.setAttribute('class', 'row add-space-between add-align-items');
     var $listingPrice = document.createElement('p');
     $listingPrice.setAttribute('class', 'listing-price');
     $listingPrice.textContent = '$ ' + data.allProperties[i].list_price.toLocaleString('en-US');
+
+    var $createFavoriteIcon = document.createElement('i');
+    $createFavoriteIcon.setAttribute('class', 'far fa-heart edit-heart');
+
     var $streetDiv = document.createElement('div');
     var $street = document.createElement('p');
     $street.setAttribute('class', 'street');
@@ -117,6 +122,7 @@ function renderListLising() {
     $listing.appendChild($listingImage);
     $listing.appendChild($listingPriceDiv);
     $listingPriceDiv.appendChild($listingPrice);
+    $listingPriceDiv.appendChild($createFavoriteIcon);
     $listing.appendChild($streetDiv);
     $streetDiv.appendChild($street);
     $listing.appendChild($zipCodeDiv);
@@ -237,9 +243,17 @@ function renderListingDetail() {
   $columnHalfWhole.appendChild($createDotsRow);
   var $createDetailTextColumn = document.createElement('div');
   $createDetailTextColumn.setAttribute('class', 'column-half full-width-mobile');
+
+  var $createPriceDiv = document.createElement('div');
+  $createPriceDiv.setAttribute('class', 'row add-space-between add-align-items');
+
   var $createDetailPrice = document.createElement('div');
   $createDetailPrice.setAttribute('class', 'detail-price');
   $createDetailPrice.textContent = '$ ' + data.propertyDetail.list_price.toLocaleString('en-US');
+
+  var $createDetailHeart = document.createElement('i');
+  $createDetailHeart.setAttribute('class', 'far fa-heart edit-detail-heart');
+
   var $createDetailAddress = document.createElement('div');
   $createDetailAddress.setAttribute('class', 'detail-address');
   $createDetailAddress.textContent = data.propertyDetail.location.address.line + ', ' + data.propertyDetail.location.address.city + ', ' + data.propertyDetail.location.address.state_code + ', ' + data.propertyDetail.location.address.postal_code;
@@ -362,7 +376,9 @@ function renderListingDetail() {
   $createAverage.textContent = '$' + average.toLocaleString('en-US', { maximumFractionDigits: 2 });
 
   $listingDetailContainer.appendChild($createDetailTextColumn);
-  $createDetailTextColumn.appendChild($createDetailPrice);
+  $createDetailTextColumn.appendChild($createPriceDiv);
+  $createPriceDiv.appendChild($createDetailPrice);
+  $createPriceDiv.appendChild($createDetailHeart);
   $createDetailTextColumn.appendChild($createDetailAddress);
 
   $createDetailTextColumn.appendChild($createFourColumnDiv);

@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="css/styles.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fenix&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fenix&family=Roboto:wght@100;400&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -23,9 +23,9 @@
   <main>
     <div class="search-section">
       <h3 class="heading">Find it, Tour it, Own it</h3>
-      <form class="inline">
-        <input type="text" class="city-name" placeholder="Enter a City Name">
-        <select name="states" class="chose-state">
+      <form class="search-form">
+        <input type="text" class="city-name hover-effect" placeholder="Enter a City Name">
+        <select name="states" class="chose-state hover-effects">
           <option value="null">Choose a State</option>
           <option value="CA">CA</option>
           <option value="AK">AK</option>
@@ -84,11 +84,12 @@
           <option value="WV">WV</option>
           <option value="WY">WY</option>
         </select>
-        <input type="submit" class="search-box" value="Search" />
+        <input type="submit" class="search-box hover-effects" value="Search" />
       </form>
     </div>
     <div class="listing-section hidden">
-      <p class="listing-heading"><i class="fas fa-chevron-left add-padding-right" id="listingBack"></i>Listing</p>
+      <p class="listing-heading"><i class="fas fa-chevron-left add-padding-right hover-effects"
+          id="listingBack"></i>Listing</p>
       <div class="blue-area">
         <div class="container">
           <div class="row" id="listing">
@@ -96,6 +97,18 @@
         </div>
       </div>
     </div>
+    <div class="listing-detail hidden" id="listing-detail-div">
+      <p class="listing-heading"><i class="fas fa-chevron-left add-padding-right hover-effects"
+          id="listingDetailBack"></i>Listing Detail</p>
+      <div class="blue-area">
+        <div class="container">
+          <div class="row add-padding-top" id="listingDetail">
+          </div>
+        </div>
+      </div>
+    </div>
+
+
 
 
   </main>

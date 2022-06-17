@@ -34,7 +34,7 @@
   flex-wrap: wrap;
 }
 
-.inline {
+.search-form {
   margin-left: 10%;
 }
 
@@ -82,21 +82,19 @@
   border: none;
 }
 
-.search-box:hover {
-  cursor: pointer;
-}
-
 select {
   appearance: none;
 }
 
 .listing-heading {
   padding-left: 30px;
+  color: #143656;
 }
 
 .blue-area {
   background-color: #f4f8fc;
   border-radius: 50px;
+  height: 100%;
 }
 
 .column-third {
@@ -152,11 +150,199 @@ select {
   cursor: pointer;
 }
 
+.hover-effect:hover {
+  transform: scale(1.1);
+}
+
+.mouse-hover:hover {
+  cursor: pointer;
+}
+
+.column-half {
+  width: 50%;
+}
+
+.add-padding-top {
+  padding-top: 50px;
+}
+
+.add-padding {
+  padding: 5px;
+}
+
+.detail-images {
+  padding-right: 100px;
+  display: block;
+  position: relative;
+}
+
+.add-align-items {
+  align-items: center;
+  justify-content: center;
+}
+
+.detail-price {
+  font-size: 41px;
+  font-weight: bold;
+  padding-bottom: 8px;
+  padding-left: 10px;
+}
+
+.detail-address {
+  font-size: 22px;
+  font-weight: bold;
+  padding-bottom: 20px;
+  padding-left: 10px;
+}
+
+.add-overlay {
+  background-color: #f1f1f1;
+  border-radius: 5px;
+  width: 250px;
+  margin: 10px;
+}
+
+.add-color {
+  color: #143656;
+}
+
+.detail-title {
+  font-size: 12px;
+}
+
+.detail-content {
+  font-size: 15px;
+}
+
+.description-title {
+  font-weight: bold;
+  font-size: 14px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-left: 10px;
+  font-family:
+    Roboto,
+    sans-serif;
+}
+
+.description-content {
+  font-size: 14px;
+  padding-left: 10px;
+  font-weight: lighter;
+  font-family:
+    Roboto,
+    sans-serif;
+}
+
+.add-space-between {
+  justify-content: space-between;
+}
+
+.average-price {
+  padding-left: 10px;
+  font-size: 25px;
+  font-weight: bold;
+  padding-bottom: 30px;
+}
+
+.add-flex-direction {
+  flex-direction: column;
+}
+
+.dots {
+  padding-right: 100px;
+  color: #fff;
+  position: relative;
+  bottom: 40px;
+}
+
+.full-width-mobile {
+  width: 50%;
+}
+
 @media only screen and (max-width: 400px) {
   .blue-area {
     background-color: #f4f8fc;
     border-radius: 50px;
-    padding-left: 15%;
+    padding-left: 10%;
+    padding-right: 10%;
+  }
+
+  .full-width-mobile {
+    width: 100%;
+  }
+
+  .detail-title {
+    font-size: 8px;
+  }
+
+  .detail-content {
+    font-size: 11px;
+  }
+
+  .detail-price {
+    font-size: 35px;
+    font-weight: bold;
+    padding-bottom: 8px;
+    padding-left: 5px;
+  }
+
+  .description-title {
+    font-weight: bold;
+    font-size: 14px;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 5px;
+    font-family:
+      Roboto,
+      sans-serif;
+  }
+
+  .description-content {
+    font-size: 14px;
+    padding-left: 5px;
+    font-weight: lighter;
+    font-family:
+      Roboto,
+      sans-serif;
+  }
+
+  .average-price {
+    padding-left: 5px;
+    font-size: 15px;
+    font-weight: bold;
+    padding-bottom: 30px;
+  }
+
+  .add-overlay {
+    background-color: #f1f1f1;
+    border-radius: 5px;
+    width: 125px;
+    margin: 5px;
+  }
+
+  .adjust-icon-size {
+    font-size: 30px;
+  }
+
+  .detail-address {
+    font-size: 18px;
+    font-weight: bold;
+    padding-bottom: 15px;
+    padding-left: 5px;
+  }
+
+  .dots {
+    padding-right: 0;
+    color: #fff;
+    position: relative;
+    bottom: 40px;
+  }
+
+  .detail-images {
+    padding-right: 0;
+    display: block;
+    position: relative;
   }
 
   .chose-state {
@@ -209,7 +395,7 @@ select {
     background-position: 45% 100%;
   }
 
-  .inline {
+  .search-form {
     margin-left: 5%;
     margin-top: 5%;
   }

@@ -45,6 +45,7 @@ function goBackToHome(event) {
   $searchSection.className = 'search-section ';
   $listingDetailRow.className = 'listing-detail hidden';
   empty($listingRow);
+  data.allProperties = [];
 }
 
 var $listingDetailBack = document.querySelector('#listingDetailBack');
@@ -90,6 +91,7 @@ function renderListLising() {
     $listing.setAttribute('data-propertyID', data.allProperties[i].property_id);
     var $listingImage = document.createElement('img');
     if (data.allProperties[i].primary_photo === null) {
+      $listingImage.setAttribute('src', 'images/PhotoNotAvaliable.jpeg');
       $listingImage.setAttribute('alt', 'image not avaliable');
       $listingImage.setAttribute('class', 'columnfull listing-img mouse-hover');
     } else {
@@ -196,24 +198,34 @@ function renderListLising() {
 //   </div>
 // </div>
 function renderListingDetail() {
+
   var $columnHalfWhole = document.createElement('div');
   $columnHalfWhole.setAttribute('class', 'column-half row add-flex-direction add-align-items full-width-mobile');
   var $imageDiv = document.createElement('div');
   $imageDiv.setAttribute('class', 'detail-images add-align-items row');
   var $createDetailImage = document.createElement('img');
-  $createDetailImage.setAttribute('src', data.propertyDetail.photos[0].href);
-  $createDetailImage.setAttribute('class', 'column-full');
+
+  if (data.propertyDetail.photos === null) {
+    $createDetailImage.setAttribute('src', 'images/PhotoNotAvaliable.jpeg');
+    $createDetailImage.setAttribute('class', 'column-full');
+  } else {
+    $createDetailImage.setAttribute('src', data.propertyDetail.photos[0].href);
+    $createDetailImage.setAttribute('class', 'column-full');
+  }
+
   var $createDotsRow = document.createElement('div');
   $createDotsRow.setAttribute('class', 'dots add-align-items add-flex-direction');
   var $createHoloDot = document.createElement('i');
   $createHoloDot.setAttribute('class', 'fas fa-dot-circle fa-2xs add-padding for-Dom-select-detail');
   $createHoloDot.setAttribute('data-id', 0);
   $createDotsRow.appendChild($createHoloDot);
-  for (var i = 1; i < data.propertyDetail.photos.length; i++) {
-    var $createDot = document.createElement('i');
-    $createDot.setAttribute('class', 'fas fa-circle fa-2xs add-padding for-Dom-select-detail');
-    $createDot.setAttribute('data-id', i);
-    $createDotsRow.appendChild($createDot);
+  if (data.propertyDetail.photos !== null) {
+    for (var i = 1; i < data.propertyDetail.photos.length; i++) {
+      var $createDot = document.createElement('i');
+      $createDot.setAttribute('class', 'fas fa-circle fa-2xs add-padding for-Dom-select-detail');
+      $createDot.setAttribute('data-id', i);
+      $createDotsRow.appendChild($createDot);
+    }
   }
   $listingDetailContainer.appendChild($columnHalfWhole);
   $columnHalfWhole.appendChild($imageDiv);
@@ -366,6 +378,7 @@ function renderListingDetail() {
 
   var $selectAllIcon = document.querySelectorAll('.for-Dom-select-detail');
   $createDotsRow.addEventListener('click', event => {
+
     for (var i = 0; i < $selectAllIcon.length; i++) {
       if (event.target.matches('i')) {
         $selectAllIcon[i].className = 'fas fa-circle fa-2xs add-padding for-Dom-select-detail';
@@ -376,6 +389,29 @@ function renderListingDetail() {
       }
     }
   });
+
+  var count = 0;
+  setInterval(() => {
+    if (count < $selectAllIcon.length - 1) {
+    // $selectAllIcon[i].className = 'fas fa-circle fa-2xs add-padding for-Dom-select-detail';
+      $selectAllIcon[count].className = 'fas fa-circle fa-2xs add-padding for-Dom-select-detail';
+      $selectAllIcon[count + 1].className = 'fas fa-dot-circle fa-2xs add-padding for-Dom-select-detail';
+      $createDetailImage.setAttribute('src', data.propertyDetail.photos[count + 1].href);
+    } else if (count === $selectAllIcon.length - 1) {
+      // $selectAllIcon[i].className = 'fas fa-dot-circle fa-2xs add-padding for-Dom-select-detail';
+      // $createDetailImage.setAttribute('src', data.propertyDetail.photos[i].href);
+      $selectAllIcon[count].className = 'fas fa-circle fa-2xs add-padding for-Dom-select-detail';
+      $selectAllIcon[0].className = 'fas fa-dot-circle fa-2xs add-padding for-Dom-select-detail';
+      $createDetailImage.setAttribute('src', data.propertyDetail.photos[0].href);
+    }
+
+    if (count < $selectAllIcon.length - 1) {
+      count++;
+    } else if (count === $selectAllIcon.length - 1) {
+      count = 0;
+    }
+
+  }, 3000);
 
   return $listingDetailContainer;
 }

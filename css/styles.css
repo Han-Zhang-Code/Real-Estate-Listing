@@ -97,12 +97,6 @@ select {
   height: 100%;
 }
 
-.blue-area-detail {
-  background-color: #f4f8fc;
-  border-radius: 50px;
-  height: 95vh;
-}
-
 .column-third {
   width: 33.33%;
 }

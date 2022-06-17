@@ -411,6 +411,24 @@ function renderListingDetail() {
   var $selectAllIcon = document.querySelectorAll('.for-Dom-select-detail');
   $createDotsRow.addEventListener('click', event => {
     clearInterval(intervalID);
+    data.count = 0;
+    intervalID = setInterval(() => {
+      if (data.count < $selectAllIcon.length - 1) {
+        $selectAllIcon[data.count].className = 'fas fa-circle fa-2xs add-padding for-Dom-select-detail';
+        $selectAllIcon[data.count + 1].className = 'fas fa-dot-circle fa-2xs add-padding for-Dom-select-detail';
+        $createDetailImage.setAttribute('src', data.propertyDetail.photos[data.count + 1].href);
+      } else if (data.count === $selectAllIcon.length - 1) {
+        $selectAllIcon[data.count].className = 'fas fa-circle fa-2xs add-padding for-Dom-select-detail';
+        $selectAllIcon[0].className = 'fas fa-dot-circle fa-2xs add-padding for-Dom-select-detail';
+        $createDetailImage.setAttribute('src', data.propertyDetail.photos[0].href);
+      }
+      if (data.count < $selectAllIcon.length - 1) {
+        data.count++;
+      } else if (data.count === $selectAllIcon.length - 1) {
+        data.count = 0;
+      }
+
+    }, 1000);
     for (var i = 0; i < $selectAllIcon.length; i++) {
       if (event.target.matches('i')) {
         $selectAllIcon[i].className = 'fas fa-circle fa-2xs add-padding for-Dom-select-detail';
@@ -438,7 +456,7 @@ function renderListingDetail() {
       data.count = 0;
     }
 
-  }, 3000);
+  }, 1000);
 
   return $listingDetailContainer;
 

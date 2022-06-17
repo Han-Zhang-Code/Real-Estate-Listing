@@ -211,22 +211,22 @@ function renderListingDetail() {
 
   if (data.propertyDetail.photos === null) {
     $createDetailImage.setAttribute('src', 'images/PhotoNotAvaliable.jpeg');
-    $createDetailImage.setAttribute('class', 'column-full');
+    $createDetailImage.setAttribute('class', 'column-full hover-effect');
   } else {
     $createDetailImage.setAttribute('src', data.propertyDetail.photos[0].href);
-    $createDetailImage.setAttribute('class', 'column-full');
+    $createDetailImage.setAttribute('class', 'column-full hover-effect');
   }
 
   var $createDotsRow = document.createElement('div');
   $createDotsRow.setAttribute('class', 'dots add-align-items add-flex-direction');
   var $createHoloDot = document.createElement('i');
-  $createHoloDot.setAttribute('class', 'fas fa-dot-circle fa-2xs add-padding for-Dom-select-detail');
+  $createHoloDot.setAttribute('class', 'fas fa-dot-circle fa-2xs add-padding for-Dom-select-detail hover-effects');
   $createHoloDot.setAttribute('data-id', 0);
   $createDotsRow.appendChild($createHoloDot);
   if (data.propertyDetail.photos !== null) {
     for (var i = 1; i < data.propertyDetail.photos.length; i++) {
       var $createDot = document.createElement('i');
-      $createDot.setAttribute('class', 'fas fa-circle fa-2xs add-padding for-Dom-select-detail');
+      $createDot.setAttribute('class', 'fas fa-circle fa-2xs add-padding for-Dom-select-detail hover-effects');
       $createDot.setAttribute('data-id', i);
       $createDotsRow.appendChild($createDot);
     }
@@ -414,13 +414,15 @@ function renderListingDetail() {
     data.count = 0;
     intervalID = setInterval(() => {
       if (data.count < $selectAllIcon.length - 1) {
-        $selectAllIcon[data.count].className = 'fas fa-circle fa-2xs add-padding for-Dom-select-detail';
-        $selectAllIcon[data.count + 1].className = 'fas fa-dot-circle fa-2xs add-padding for-Dom-select-detail';
+        $selectAllIcon[data.count].className = 'fas fa-circle fa-2xs add-padding for-Dom-select-detail hover-effects';
+        $selectAllIcon[data.count + 1].className = 'fas fa-dot-circle fa-2xs add-padding for-Dom-select-detail hover-effects';
         $createDetailImage.setAttribute('src', data.propertyDetail.photos[data.count + 1].href);
+        $createDetailImage.setAttribute('class', 'column-full hover-effect');
       } else if (data.count === $selectAllIcon.length - 1) {
-        $selectAllIcon[data.count].className = 'fas fa-circle fa-2xs add-padding for-Dom-select-detail';
-        $selectAllIcon[0].className = 'fas fa-dot-circle fa-2xs add-padding for-Dom-select-detail';
+        $selectAllIcon[data.count].className = 'fas fa-circle fa-2xs add-padding for-Dom-select-detail hover-effects';
+        $selectAllIcon[0].className = 'fas fa-dot-circle fa-2xs add-padding for-Dom-select-detail hover-effects';
         $createDetailImage.setAttribute('src', data.propertyDetail.photos[0].href);
+        $createDetailImage.setAttribute('class', 'column-full hover-effect');
       }
       if (data.count < $selectAllIcon.length - 1) {
         data.count++;
@@ -431,24 +433,27 @@ function renderListingDetail() {
     }, 3000);
     for (var i = 0; i < $selectAllIcon.length; i++) {
       if (event.target.matches('i')) {
-        $selectAllIcon[i].className = 'fas fa-circle fa-2xs add-padding for-Dom-select-detail';
+        $selectAllIcon[i].className = 'fas fa-circle fa-2xs add-padding for-Dom-select-detail hover-effects';
       }
       if ($selectAllIcon[i].getAttribute('data-id') === event.target.getAttribute('data-id')) {
-        $selectAllIcon[i].className = 'fas fa-dot-circle fa-2xs add-padding for-Dom-select-detail';
+        $selectAllIcon[i].className = 'fas fa-dot-circle fa-2xs add-padding for-Dom-select-detail hover-effects';
         $createDetailImage.setAttribute('src', data.propertyDetail.photos[i].href);
+        $createDetailImage.setAttribute('class', 'column-full hover-effect');
       }
     }
   });
 
   intervalID = setInterval(() => {
     if (data.count < $selectAllIcon.length - 1) {
-      $selectAllIcon[data.count].className = 'fas fa-circle fa-2xs add-padding for-Dom-select-detail';
-      $selectAllIcon[data.count + 1].className = 'fas fa-dot-circle fa-2xs add-padding for-Dom-select-detail';
+      $selectAllIcon[data.count].className = 'fas fa-circle fa-2xs add-padding for-Dom-select-detail hover-effects';
+      $selectAllIcon[data.count + 1].className = 'fas fa-dot-circle fa-2xs add-padding for-Dom-select-detail hover-effects';
       $createDetailImage.setAttribute('src', data.propertyDetail.photos[data.count + 1].href);
+      $createDetailImage.setAttribute('class', 'column-full hover-effect');
     } else if (data.count === $selectAllIcon.length - 1) {
-      $selectAllIcon[data.count].className = 'fas fa-circle fa-2xs add-padding for-Dom-select-detail';
-      $selectAllIcon[0].className = 'fas fa-dot-circle fa-2xs add-padding for-Dom-select-detail';
+      $selectAllIcon[data.count].className = 'fas fa-circle fa-2xs add-padding for-Dom-select-detail hover-effects';
+      $selectAllIcon[0].className = 'fas fa-dot-circle fa-2xs add-padding for-Dom-select-detail hover-effects';
       $createDetailImage.setAttribute('src', data.propertyDetail.photos[0].href);
+      $createDetailImage.setAttribute('class', 'column-full hover-effect');
     }
     if (data.count < $selectAllIcon.length - 1) {
       data.count++;

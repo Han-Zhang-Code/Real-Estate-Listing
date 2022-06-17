@@ -6,6 +6,8 @@ var $submit = document.querySelector('.search-section');
 $submit.addEventListener('submit', submited);
 
 var $listingRow = document.querySelector('#listing');
+var $listingDetailRow = document.querySelector('#listing-detail-div');
+// var $listingDetail = document.querySelector('#listing-detail');
 
 function submited(event) {
   event.preventDefault();
@@ -24,12 +26,12 @@ function submited(event) {
     for (var i = 0; i < xhr.response.properties.length; i++) {
       data.allProperties.push(xhr.response.properties[i]);
     }
-    // console.log(data);
     renderListLising();
   }
 
   $searchSection.className = 'search-section hidden';
   $listingSection.className = 'listing-section';
+  $listingDetailRow.className = 'listing-detail hidden';
 
 }
 
@@ -40,8 +42,20 @@ $listingBack.addEventListener('click', goBackToHome);
 function goBackToHome(event) {
   $listingSection.className = 'listing-section hidden';
   $searchSection.className = 'search-section ';
+  $listingDetailRow.className = 'listing-detail hidden';
   empty($listingRow);
 }
+
+var $listingDetailBack = document.querySelector('#listingDetailBack');
+$listingDetailBack.addEventListener('click', goBackToListing);
+function goBackToListing(event) {
+  $listingSection.className = 'listing-section ';
+  $searchSection.className = 'search-section hidden';
+  $listingDetailRow.className = 'listing-detail hidden';
+  empty($listingDetailContainer);
+  data.propertyDetail = null;
+}
+
 function empty(element) {
   while (element.firstElementChild) {
     element.firstElementChild.remove();
@@ -50,13 +64,20 @@ function empty(element) {
 
 $listingRow.addEventListener('click', selectListing);
 function selectListing(event) {
-  var propertyId = event.target.closest('.listing').getAttribute('data-propertyid');
-  for (var i = 0; i < data.allProperties.length; i++) {
-    if (data.allProperties[i].property_id === propertyId) {
-      data.propertyDetail = data.allProperties[i];
+  if (event.target.matches('img')) {
+    var propertyId = event.target.closest('.listing').getAttribute('data-propertyid');
+    for (var i = 0; i < data.allProperties.length; i++) {
+      if (data.allProperties[i].property_id === propertyId) {
+        data.propertyDetail = data.allProperties[i];
+      }
     }
+    renderListingDetail();
+    $searchSection.className = 'search-section hidden';
+    $listingSection.className = 'listing-section hidden';
+    $listingDetailRow.className = 'listing-detail';
+  } else {
+    return 0;
   }
-  renderListingDetail();
 }
 var $listingDetailContainer = document.querySelector('#listingDetail');
 function renderListLising() {
@@ -64,15 +85,15 @@ function renderListLising() {
     var $columnThird = document.createElement('div');
     $columnThird.setAttribute('class', 'column-third add-align-items row');
     var $listing = document.createElement('div');
-    $listing.setAttribute('class', 'listing  hover-effects');
+    $listing.setAttribute('class', 'listing  hover-effect');
     $listing.setAttribute('data-propertyID', data.allProperties[i].property_id);
     var $listingImage = document.createElement('img');
     if (data.allProperties[i].primary_photo === null) {
       $listingImage.setAttribute('alt', 'image not avaliable');
-      $listingImage.setAttribute('class', 'columnfull listing-img');
+      $listingImage.setAttribute('class', 'columnfull listing-img mouse-hover');
     } else {
       $listingImage.setAttribute('src', data.allProperties[i].primary_photo.href);
-      $listingImage.setAttribute('class', 'columnfull listing-img');
+      $listingImage.setAttribute('class', 'columnfull listing-img mouse-hover');
     }
     var $listingPriceDiv = document.createElement('div');
     var $listingPrice = document.createElement('p');
@@ -226,21 +247,74 @@ function renderListingDetail() {
   $createAreaContentDetail.textContent = data.propertyDetail.description.sqft;
 
   var $createIconColumnhalfType = document.createElement('div');
-  $createIconColumnhalf.setAttribute('class', 'column-half add-overlay');
+  $createIconColumnhalfType.setAttribute('class', 'column-half add-overlay');
   var $createDetailIconDivType = document.createElement('div');
-  $createDetailIconDiv.setAttribute('class', 'detail-icons row');
+  $createDetailIconDivType.setAttribute('class', 'detail-icons row');
   var $createSmallIconDivType = document.createElement('div');
-  $createSmallIconDiv.setAttribute('class', 'column-half add-align-items row');
+  $createSmallIconDivType.setAttribute('class', 'column-half add-align-items row');
   var $createSmallIconType = document.createElement('i');
-  $createSmallIcon.setAttribute('class', 'fas fa-vector-square fa-4x add-color adjust-icon-size');
+  $createSmallIconType.setAttribute('class', 'fas fa-house-user fa-3x add-color adjust-icon-size');
   var $createSmallIconContentDivType = document.createElement('div');
-  $createSmallIconContentDiv.setAttribute('class', 'column-half');
+  $createSmallIconContentDivType.setAttribute('class', 'column-half');
   var $createTypeContent = document.createElement('p');
-  $createAreaContent.setAttribute('class', 'detail-title');
-  $createAreaContent.textContent = 'Area';
+  $createTypeContent.setAttribute('class', 'detail-title');
+  $createTypeContent.textContent = 'House Type';
   var $createTypeContentDetail = document.createElement('p');
-  $createAreaContentDetail.setAttribute('class', 'detail-title');
-  $createAreaContentDetail.textContent = data.propertyDetail.description.sqft;
+  $createTypeContentDetail.setAttribute('class', 'detail-title');
+  $createTypeContentDetail.textContent = data.propertyDetail.description.type;
+
+  var $createIconColumnhalfBedroom = document.createElement('div');
+  $createIconColumnhalfBedroom.setAttribute('class', 'column-half add-overlay');
+  var $createDetailIconDivBedroom = document.createElement('div');
+  $createDetailIconDivBedroom.setAttribute('class', 'detail-icons row');
+  var $createSmallIconDivBedroom = document.createElement('div');
+  $createSmallIconDivBedroom.setAttribute('class', 'column-half add-align-items row');
+  var $createSmallIconBedroom = document.createElement('i');
+  $createSmallIconBedroom.setAttribute('class', 'fas fa-bed fa-3x add-color adjust-icon-size');
+  var $createSmallIconContentDivBedroom = document.createElement('div');
+  $createSmallIconContentDivBedroom.setAttribute('class', 'column-half');
+  var $createBedroomContent = document.createElement('p');
+  $createBedroomContent.setAttribute('class', 'detail-title');
+  $createBedroomContent.textContent = 'Bedroom';
+  var $createBedroomContentDetail = document.createElement('p');
+  $createBedroomContentDetail.setAttribute('class', 'detail-title');
+  $createBedroomContentDetail.textContent = data.propertyDetail.description.beds;
+
+  var $createIconColumnhalfBathroom = document.createElement('div');
+  $createIconColumnhalfBathroom.setAttribute('class', 'column-half add-overlay');
+  var $createDetailIconDivBathroom = document.createElement('div');
+  $createDetailIconDivBathroom.setAttribute('class', 'detail-icons row');
+  var $createSmallIconDivBathroom = document.createElement('div');
+  $createSmallIconDivBathroom.setAttribute('class', 'column-half add-align-items row');
+  var $createSmallIconBathroom = document.createElement('i');
+  $createSmallIconBathroom.setAttribute('class', 'fas fa-bath fa-3x add-color adjust-icon-size');
+  var $createSmallIconContentDivBathroom = document.createElement('div');
+  $createSmallIconContentDivBathroom.setAttribute('class', 'column-half');
+  var $createBathroomContent = document.createElement('p');
+  $createBathroomContent.setAttribute('class', 'detail-title');
+  $createBathroomContent.textContent = 'Bathroom';
+  var $createBathroomContentDetail = document.createElement('p');
+  $createBathroomContentDetail.setAttribute('class', 'detail-title');
+  $createBathroomContentDetail.textContent = data.propertyDetail.description.baths;
+
+  var $createDescriptionTitleDiv = document.createElement('div');
+  var $createDescriptionTitle = document.createElement('p');
+  $createDescriptionTitle.setAttribute('class', 'description-title');
+  $createDescriptionTitle.textContent = 'Description';
+
+  var $createDescriptionContentDiv = document.createElement('div');
+  var $createDescriptionContent = document.createElement('p');
+  $createDescriptionContent.setAttribute('class', 'description-content');
+  $createDescriptionContent.textContent = 'this is dummy';
+
+  var $createAverageDiv = document.createElement('div');
+  $createAverageDiv.setAttribute('class', 'row add-space-between');
+  var $createAverageTitle = document.createElement('p');
+  $createAverageTitle.setAttribute('class', 'average-price');
+  $createAverageTitle.textContent = 'Average Listing Price in Los Angeles:';
+  var $createAverage = document.createElement('p');
+  $createAverage.setAttribute('class', 'average-price');
+  $createAverage.textContent = '$1,234,567';
 
   $listingDetailContainer.appendChild($createDetailTextColumn);
   $createDetailTextColumn.appendChild($createDetailPrice);
@@ -255,7 +329,6 @@ function renderListingDetail() {
   $createSmallIconContentDiv.appendChild($createAreaContent);
   $createSmallIconContentDiv.appendChild($createAreaContentDetail);
 
-  // $createDetailTextColumn.appendChild($createFourColumnDiv);
   $createFourColumnDiv.appendChild($createIconColumnhalfType);
   $createIconColumnhalfType.appendChild($createDetailIconDivType);
   $createDetailIconDivType.appendChild($createSmallIconDivType);
@@ -263,6 +336,32 @@ function renderListingDetail() {
   $createDetailIconDivType.appendChild($createSmallIconContentDivType);
   $createSmallIconContentDivType.appendChild($createTypeContent);
   $createSmallIconContentDivType.appendChild($createTypeContentDetail);
+
+  $createFourColumnDiv.appendChild($createIconColumnhalfBedroom);
+  $createIconColumnhalfBedroom.appendChild($createDetailIconDivBedroom);
+  $createDetailIconDivBedroom.appendChild($createSmallIconDivBedroom);
+  $createSmallIconDivBedroom.appendChild($createSmallIconBedroom);
+  $createDetailIconDivBedroom.appendChild($createSmallIconContentDivBedroom);
+  $createSmallIconContentDivBedroom.appendChild($createBedroomContent);
+  $createSmallIconContentDivBedroom.appendChild($createBedroomContentDetail);
+
+  $createFourColumnDiv.appendChild($createIconColumnhalfBathroom);
+  $createIconColumnhalfBathroom.appendChild($createDetailIconDivBathroom);
+  $createDetailIconDivBathroom.appendChild($createSmallIconDivBathroom);
+  $createSmallIconDivBathroom.appendChild($createSmallIconBathroom);
+  $createDetailIconDivBathroom.appendChild($createSmallIconContentDivBathroom);
+  $createSmallIconContentDivBathroom.appendChild($createBathroomContent);
+  $createSmallIconContentDivBathroom.appendChild($createBathroomContentDetail);
+
+  $createDetailTextColumn.appendChild($createDescriptionTitleDiv);
+  $createDescriptionTitleDiv.appendChild($createDescriptionTitle);
+
+  $createDetailTextColumn.appendChild($createDescriptionContentDiv);
+  $createDescriptionContentDiv.appendChild($createDescriptionContent);
+
+  $createDetailTextColumn.appendChild($createAverageDiv);
+  $createAverageDiv.appendChild($createAverageTitle);
+  $createAverageDiv.appendChild($createAverage);
 
   var $selectAllIcon = document.querySelectorAll('.for-Dom-select-detail');
   $createDotsRow.addEventListener('click', event => {
@@ -276,19 +375,6 @@ function renderListingDetail() {
       }
     }
   });
-
-  // var $createDetailTextColumn = document.createElement('div');
-  // $createDetailTextColumn.setAttribute('class', 'column-half full-width-mobile');
-  // var $createDetailPrice = document.createElement('div');
-  // $createDetailPrice.setAttribute('class', 'detail-price');
-  // $createDetailPrice.textContent = data.propertyDetail.list_price.toLocaleString('en-US');
-  // var $createDetailAddress = document.createElement('div');
-  // $createDetailAddress.setAttribute('class', 'detail-address');
-  // $createDetailAddress.textContent = data.propertyDetail.address.line + ', ' + data.propertyDetail.address.city + ', ' + data.propertyDetail.address.state_code + ', ' + data.propertyDetail.address.postal_code;
-
-  // $listingDetailContainer.appendChild($createDetailTextColumn);
-  // $createDetailTextColumn.appendChild($createDetailPrice);
-  // $createDetailTextColumn.appendChild($createDetailAddress);
 
   return $listingDetailContainer;
 }

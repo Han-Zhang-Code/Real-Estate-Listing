@@ -94,6 +94,13 @@ select {
 .blue-area {
   background-color: #f4f8fc;
   border-radius: 50px;
+  height: 100%;
+}
+
+.blue-area-detail {
+  background-color: #f4f8fc;
+  border-radius: 50px;
+  height: 95vh;
 }
 
 .column-third {
@@ -151,6 +158,10 @@ select {
 
 .hover-effect:hover {
   transform: scale(1.1);
+}
+
+.mouse-hover:hover {
+  cursor: pointer;
 }
 
 .column-half {
@@ -323,7 +334,7 @@ select {
   .detail-address {
     font-size: 18px;
     font-weight: bold;
-    padding-bottom: 5px;
+    padding-bottom: 15px;
     padding-left: 5px;
   }
 

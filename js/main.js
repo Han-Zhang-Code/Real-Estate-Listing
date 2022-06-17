@@ -7,7 +7,6 @@ $submit.addEventListener('submit', submited);
 
 var $listingRow = document.querySelector('#listing');
 var $listingDetailRow = document.querySelector('#listing-detail-div');
-// var $listingDetail = document.querySelector('#listing-detail');
 
 function submited(event) {
   event.preventDefault();
@@ -56,6 +55,9 @@ function goBackToListing(event) {
   $listingDetailRow.className = 'listing-detail hidden';
   empty($listingDetailContainer);
   data.propertyDetail = null;
+  data.count = 0;
+  clearInterval(intervalID);
+
 }
 
 function empty(element) {
@@ -197,6 +199,8 @@ function renderListLising() {
 //     <p class="average-price">$ 1,007,124</p>
 //   </div>
 // </div>
+// above commented code will delete in next feature
+var intervalID = null;
 function renderListingDetail() {
 
   var $columnHalfWhole = document.createElement('div');
@@ -274,6 +278,16 @@ function renderListingDetail() {
   $createTypeContent.textContent = 'House Type';
   var $createTypeContentDetail = document.createElement('p');
   $createTypeContentDetail.setAttribute('class', 'detail-title');
+  var needCapitals = ['condos', 'farm', 'townhome', 'land', 'mobile'];
+  if (needCapitals.includes(data.propertyDetail.description.type)) {
+    var temp = data.propertyDetail.description.type.split('');
+    temp[0] = temp[0].toUpperCase();
+    data.propertyDetail.description.type = temp.join('');
+  } else if (data.propertyDetail.description.type === 'single_family') {
+    data.propertyDetail.description.type = 'Single-Family';
+  } else if (data.propertyDetail.description.type === 'multi_family') {
+    data.propertyDetail.description.type = 'Multi-Family';
+  }
   $createTypeContentDetail.textContent = data.propertyDetail.description.type;
 
   var $createIconColumnhalfBedroom = document.createElement('div');
@@ -317,17 +331,35 @@ function renderListingDetail() {
 
   var $createDescriptionContentDiv = document.createElement('div');
   var $createDescriptionContent = document.createElement('p');
+
+  if (data.propertyDetail.description.sold_price === null) {
+    data.propertyDetail.description.sold_price = 'not provided';
+  }
+
   $createDescriptionContent.setAttribute('class', 'description-content');
-  $createDescriptionContent.textContent = 'this is dummy';
+  $createDescriptionContent.textContent = 'This ' + data.propertyDetail.description.type +
+  ' house has ' + data.propertyDetail.description.beds + ' bedrooms and ' +
+  data.propertyDetail.description.baths + ' bathrooms, the house it-self has the site area of ' +
+  data.propertyDetail.description.sqft + ' square feet, with the lot size of ' +
+  data.propertyDetail.description.lot_sqft + ' square feet. its last sold price is $' +
+  data.propertyDetail.description.sold_price.toLocaleString('en-US') + ' on the date ' +
+  data.propertyDetail.description.sold_date + '.';
+
+  var average = 0;
+  var sum = 0;
+  for (var j = 0; j < data.allProperties.length - 1; j++) {
+    sum += data.allProperties[j].list_price;
+  }
+  average = sum / data.allProperties.length;
 
   var $createAverageDiv = document.createElement('div');
   $createAverageDiv.setAttribute('class', 'row add-space-between');
   var $createAverageTitle = document.createElement('p');
   $createAverageTitle.setAttribute('class', 'average-price');
-  $createAverageTitle.textContent = 'Average Listing Price in Los Angeles:';
+  $createAverageTitle.textContent = 'Average Listing Price in ' + data.propertyDetail.location.address.city + ':';
   var $createAverage = document.createElement('p');
   $createAverage.setAttribute('class', 'average-price');
-  $createAverage.textContent = '$1,234,567';
+  $createAverage.textContent = '$' + average.toLocaleString('en-US', { maximumFractionDigits: 2 });
 
   $listingDetailContainer.appendChild($createDetailTextColumn);
   $createDetailTextColumn.appendChild($createDetailPrice);
@@ -378,7 +410,7 @@ function renderListingDetail() {
 
   var $selectAllIcon = document.querySelectorAll('.for-Dom-select-detail');
   $createDotsRow.addEventListener('click', event => {
-
+    clearInterval(intervalID);
     for (var i = 0; i < $selectAllIcon.length; i++) {
       if (event.target.matches('i')) {
         $selectAllIcon[i].className = 'fas fa-circle fa-2xs add-padding for-Dom-select-detail';
@@ -390,28 +422,24 @@ function renderListingDetail() {
     }
   });
 
-  var count = 0;
-  setInterval(() => {
-    if (count < $selectAllIcon.length - 1) {
-    // $selectAllIcon[i].className = 'fas fa-circle fa-2xs add-padding for-Dom-select-detail';
-      $selectAllIcon[count].className = 'fas fa-circle fa-2xs add-padding for-Dom-select-detail';
-      $selectAllIcon[count + 1].className = 'fas fa-dot-circle fa-2xs add-padding for-Dom-select-detail';
-      $createDetailImage.setAttribute('src', data.propertyDetail.photos[count + 1].href);
-    } else if (count === $selectAllIcon.length - 1) {
-      // $selectAllIcon[i].className = 'fas fa-dot-circle fa-2xs add-padding for-Dom-select-detail';
-      // $createDetailImage.setAttribute('src', data.propertyDetail.photos[i].href);
-      $selectAllIcon[count].className = 'fas fa-circle fa-2xs add-padding for-Dom-select-detail';
+  intervalID = setInterval(() => {
+    if (data.count < $selectAllIcon.length - 1) {
+      $selectAllIcon[data.count].className = 'fas fa-circle fa-2xs add-padding for-Dom-select-detail';
+      $selectAllIcon[data.count + 1].className = 'fas fa-dot-circle fa-2xs add-padding for-Dom-select-detail';
+      $createDetailImage.setAttribute('src', data.propertyDetail.photos[data.count + 1].href);
+    } else if (data.count === $selectAllIcon.length - 1) {
+      $selectAllIcon[data.count].className = 'fas fa-circle fa-2xs add-padding for-Dom-select-detail';
       $selectAllIcon[0].className = 'fas fa-dot-circle fa-2xs add-padding for-Dom-select-detail';
       $createDetailImage.setAttribute('src', data.propertyDetail.photos[0].href);
     }
-
-    if (count < $selectAllIcon.length - 1) {
-      count++;
-    } else if (count === $selectAllIcon.length - 1) {
-      count = 0;
+    if (data.count < $selectAllIcon.length - 1) {
+      data.count++;
+    } else if (data.count === $selectAllIcon.length - 1) {
+      data.count = 0;
     }
 
   }, 3000);
 
   return $listingDetailContainer;
+
 }

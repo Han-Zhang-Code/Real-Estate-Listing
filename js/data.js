@@ -1,5 +1,6 @@
 /* exported data */
 var data = {
   allProperties: [],
-  propertyDetail: null
+  propertyDetail: null,
+  count: 0
 };

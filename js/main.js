@@ -86,6 +86,12 @@ function selectListing(event) {
 var $listingDetailContainer = document.querySelector('#listingDetail');
 function renderListLising() {
   for (var i = 0; i < data.allProperties.length; i++) {
+    // renderOneProperty(data.allProperties[i]);
+
+    // function renderOneProperty(property) {
+
+    // }
+
     var $columnThird = document.createElement('div');
     $columnThird.setAttribute('class', 'column-third add-align-items row');
     var $listing = document.createElement('div');
@@ -107,7 +113,11 @@ function renderListLising() {
     $listingPrice.textContent = '$ ' + data.allProperties[i].list_price.toLocaleString('en-US');
 
     var $createFavoriteIcon = document.createElement('i');
-    $createFavoriteIcon.setAttribute('class', 'far fa-heart edit-heart');
+    if (data.favorite.some(function (favorite) { return favorite.property_id === data.allProperties[i].property_id; })) {
+      $createFavoriteIcon.setAttribute('class', 'fas fa-heart edit-heart');
+    } else {
+      $createFavoriteIcon.setAttribute('class', 'far fa-heart edit-heart');
+    }
 
     var $streetDiv = document.createElement('div');
     var $street = document.createElement('p');
@@ -127,85 +137,21 @@ function renderListLising() {
     $streetDiv.appendChild($street);
     $listing.appendChild($zipCodeDiv);
     $zipCodeDiv.appendChild($zipCode);
+
+    $createFavoriteIcon.addEventListener('click', event => {
+      var propertyId = event.target.closest('.listing').getAttribute('data-propertyid');
+      for (var i = 0; i < data.allProperties.length; i++) {
+        if (data.allProperties[i].property_id === propertyId) {
+          data.favorite.push(data.allProperties[i]);
+        }
+      }
+      event.target.closest('i').className = 'fas fa-heart edit-heart';
+    });
   }
+
   return $listingRow;
 }
-// <div class="column-half row add-flex-direction add-align-items full-width-mobile">
-//   <div class="detail-images add-align-items row">
-//     <img src="images/original.jpeg" class="column-full">
-//   </div>
-//   <div class="dots add-align-items add-flex-direction">
-//     <i class="fas fa-dot-circle fa-2xs add-padding"></i>
-//     <i class="fas fa-circle fa-2xs add-padding"></i>
-//     <i class="fas fa-circle fa-2xs add-padding"></i>
-//   </div>
-// </div>
-// <div class="column-half full-width-mobile">
-//   <div class="detail-price">$897,799</div>
-//   <div class="detail-address">1403 Albany St, Los Angeles, CA 90015</div>
-//   <div class="row add-space-between">
-//     <div class="column-half add-overlay">
-//       <div class="detail-icons row">
-//         <div class="column-half add-align-items row">
-//           <i class="fas fa-vector-square fa-4x add-color adjust-icon-size"></i>
-//         </div>
-//         <div class="column-half">
-//           <p class="detail-title">Area</p>
-//           <p class="detail-content">2682 sqft</p>
-//         </div>
-//       </div>
-//     </div>
-//     <div class="column-half add-overlay">
-//       <div class="detail-icons row">
-//         <div class="column-half add-align-items row">
-//           <i class="fas fa-house-user fa-3x add-color adjust-icon-size"></i>
-//         </div>
-//         <div class="column-half">
-//           <p class="detail-title">House Type</p>
-//           <p class="detail-content">Multi-Family</p>
-//         </div>
-//       </div>
-//     </div>
-//   </div>
-//   <div class="row add-space-between">
-//     <div class="column-half add-overlay">
-//       <div class="detail-icons row">
-//         <div class="column-half add-align-items row">
-//           <i class="fas fa-bed fa-3x add-color adjust-icon-size"></i>
-//         </div>
-//         <div class="column-half">
-//           <p class="detail-title">Bedrooms</p>
-//           <p class="detail-content">5</p>
-//         </div>
-//       </div>
-//     </div>
-//     <div class="column-half add-overlay">
-//       <div class="detail-icons row">
-//         <div class="column-half add-align-items row">
-//           <i class="fas fa-bath fa-3x add-color adjust-icon-size"></i>
-//         </div>
-//         <div class="column-half">
-//           <p class="detail-title">Bathrooms</p>
-//           <p class="detail-content">2</p>
-//         </div>
-//       </div>
-//     </div>
 
-//   </div>
-//   <div>
-//     <p class="description-title">Description</p>
-//   </div>
-//   <div>
-//     <p class="description-content">This muti-family type house has 5 bedrooms and 2 bathrooms, the house
-//       itself has the site area of 2,682 square feet,
-//       with the lot size of 5,985 square feet. its last sold price is $550,000 on the date 2015-06-29.</p>
-//   </div>
-//   <div class="row add-space-between">
-//     <p class="average-price">Average Listing Price in Los Angeles:</p>
-//     <p class="average-price">$ 1,007,124</p>
-//   </div>
-// </div>
-// above commented code will delete in next feature
 var intervalID = null;
 function renderListingDetail() {
 
@@ -476,9 +422,7 @@ function renderListingDetail() {
     } else if (data.count === $selectAllIcon.length - 1) {
       data.count = 0;
     }
-
   }, 3000);
 
   return $listingDetailContainer;
-
 }

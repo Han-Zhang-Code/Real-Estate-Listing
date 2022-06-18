@@ -83,73 +83,133 @@ function selectListing(event) {
     return 0;
   }
 }
-var $listingDetailContainer = document.querySelector('#listingDetail');
-function renderListLising() {
-  for (var i = 0; i < data.allProperties.length; i++) {
-    // renderOneProperty(data.allProperties[i]);
 
-    // function renderOneProperty(property) {
+function renderOneListListing(property) {
+  var $columnThird = document.createElement('div');
+  $columnThird.setAttribute('class', 'column-third add-align-items row');
+  var $listing = document.createElement('div');
+  $listing.setAttribute('class', 'listing  hover-effect');
+  $listing.setAttribute('data-propertyID', property.property_id);
+  var $listingImage = document.createElement('img');
+  if (property.primary_photo === null) {
+    $listingImage.setAttribute('src', 'images/PhotoNotAvaliable.jpeg');
+    $listingImage.setAttribute('alt', 'image not avaliable');
+    $listingImage.setAttribute('class', 'columnfull listing-img mouse-hover');
+  } else {
+    $listingImage.setAttribute('src', property.primary_photo.href);
+    $listingImage.setAttribute('class', 'columnfull listing-img mouse-hover');
+  }
+  var $listingPriceDiv = document.createElement('div');
+  $listingPriceDiv.setAttribute('class', 'row add-space-between add-align-items');
+  var $listingPrice = document.createElement('p');
+  $listingPrice.setAttribute('class', 'listing-price');
+  $listingPrice.textContent = '$ ' + property.list_price.toLocaleString('en-US');
 
-    // }
-
-    var $columnThird = document.createElement('div');
-    $columnThird.setAttribute('class', 'column-third add-align-items row');
-    var $listing = document.createElement('div');
-    $listing.setAttribute('class', 'listing  hover-effect');
-    $listing.setAttribute('data-propertyID', data.allProperties[i].property_id);
-    var $listingImage = document.createElement('img');
-    if (data.allProperties[i].primary_photo === null) {
-      $listingImage.setAttribute('src', 'images/PhotoNotAvaliable.jpeg');
-      $listingImage.setAttribute('alt', 'image not avaliable');
-      $listingImage.setAttribute('class', 'columnfull listing-img mouse-hover');
-    } else {
-      $listingImage.setAttribute('src', data.allProperties[i].primary_photo.href);
-      $listingImage.setAttribute('class', 'columnfull listing-img mouse-hover');
-    }
-    var $listingPriceDiv = document.createElement('div');
-    $listingPriceDiv.setAttribute('class', 'row add-space-between add-align-items');
-    var $listingPrice = document.createElement('p');
-    $listingPrice.setAttribute('class', 'listing-price');
-    $listingPrice.textContent = '$ ' + data.allProperties[i].list_price.toLocaleString('en-US');
-
-    var $createFavoriteIcon = document.createElement('i');
-    if (data.favorite.some(function (favorite) { return favorite.property_id === data.allProperties[i].property_id; })) {
-      $createFavoriteIcon.setAttribute('class', 'fas fa-heart edit-heart');
-    } else {
-      $createFavoriteIcon.setAttribute('class', 'far fa-heart edit-heart');
-    }
-
-    var $streetDiv = document.createElement('div');
-    var $street = document.createElement('p');
-    $street.setAttribute('class', 'street');
-    $street.textContent = data.allProperties[i].location.address.line + ', ' + data.allProperties[i].location.address.city;
-    var $zipCodeDiv = document.createElement('div');
-    var $zipCode = document.createElement('p');
-    $zipCode.setAttribute('class', 'zip-code');
-    $zipCode.textContent = data.allProperties[i].location.address.state_code + ', ' + data.allProperties[i].location.address.postal_code;
-    $listingRow.appendChild($columnThird);
-    $columnThird.appendChild($listing);
-    $listing.appendChild($listingImage);
-    $listing.appendChild($listingPriceDiv);
-    $listingPriceDiv.appendChild($listingPrice);
-    $listingPriceDiv.appendChild($createFavoriteIcon);
-    $listing.appendChild($streetDiv);
-    $streetDiv.appendChild($street);
-    $listing.appendChild($zipCodeDiv);
-    $zipCodeDiv.appendChild($zipCode);
-
-    $createFavoriteIcon.addEventListener('click', event => {
-      var propertyId = event.target.closest('.listing').getAttribute('data-propertyid');
-      for (var i = 0; i < data.allProperties.length; i++) {
-        if (data.allProperties[i].property_id === propertyId) {
-          data.favorite.push(data.allProperties[i]);
-        }
-      }
-      event.target.closest('i').className = 'fas fa-heart edit-heart';
-    });
+  var $createFavoriteIcon = document.createElement('i');
+  if (data.favorite.some(function (favorite) { return favorite.property_id === property.property_id; })) {
+    $createFavoriteIcon.setAttribute('class', 'fas fa-heart edit-heart');
+  } else {
+    $createFavoriteIcon.setAttribute('class', 'far fa-heart edit-heart');
   }
 
+  var $streetDiv = document.createElement('div');
+  var $street = document.createElement('p');
+  $street.setAttribute('class', 'street');
+  $street.textContent = property.location.address.line + ', ' + property.location.address.city;
+  var $zipCodeDiv = document.createElement('div');
+  var $zipCode = document.createElement('p');
+  $zipCode.setAttribute('class', 'zip-code');
+  $zipCode.textContent = property.location.address.state_code + ', ' + property.location.address.postal_code;
+  $listingRow.appendChild($columnThird);
+  $columnThird.appendChild($listing);
+  $listing.appendChild($listingImage);
+  $listing.appendChild($listingPriceDiv);
+  $listingPriceDiv.appendChild($listingPrice);
+  $listingPriceDiv.appendChild($createFavoriteIcon);
+  $listing.appendChild($streetDiv);
+  $streetDiv.appendChild($street);
+  $listing.appendChild($zipCodeDiv);
+  $zipCodeDiv.appendChild($zipCode);
+
+  $createFavoriteIcon.addEventListener('click', event => {
+    var propertyId = event.target.closest('.listing').getAttribute('data-propertyid');
+    for (var i = 0; i < data.allProperties.length; i++) {
+      if (property.property_id === propertyId) {
+        data.favorite.push(property);
+      }
+    }
+    event.target.closest('i').className = 'fas fa-heart edit-heart';
+  });
+
   return $listingRow;
+}
+
+var $listingDetailContainer = document.querySelector('#listingDetail');
+function renderListLising() {
+
+  for (var i = 0; i < data.allProperties.length; i++) {
+    renderOneListListing(data.allProperties[i]);
+
+  }
+
+  //   var $columnThird = document.createElement('div');
+  //   $columnThird.setAttribute('class', 'column-third add-align-items row');
+  //   var $listing = document.createElement('div');
+  //   $listing.setAttribute('class', 'listing  hover-effect');
+  //   $listing.setAttribute('data-propertyID', data.allProperties[i].property_id);
+  //   var $listingImage = document.createElement('img');
+  //   if (data.allProperties[i].primary_photo === null) {
+  //     $listingImage.setAttribute('src', 'images/PhotoNotAvaliable.jpeg');
+  //     $listingImage.setAttribute('alt', 'image not avaliable');
+  //     $listingImage.setAttribute('class', 'columnfull listing-img mouse-hover');
+  //   } else {
+  //     $listingImage.setAttribute('src', data.allProperties[i].primary_photo.href);
+  //     $listingImage.setAttribute('class', 'columnfull listing-img mouse-hover');
+  //   }
+  //   var $listingPriceDiv = document.createElement('div');
+  //   $listingPriceDiv.setAttribute('class', 'row add-space-between add-align-items');
+  //   var $listingPrice = document.createElement('p');
+  //   $listingPrice.setAttribute('class', 'listing-price');
+  //   $listingPrice.textContent = '$ ' + data.allProperties[i].list_price.toLocaleString('en-US');
+
+  //   var $createFavoriteIcon = document.createElement('i');
+  //   if (data.favorite.some(function (favorite) { return favorite.property_id === data.allProperties[i].property_id; })) {
+  //     $createFavoriteIcon.setAttribute('class', 'fas fa-heart edit-heart');
+  //   } else {
+  //     $createFavoriteIcon.setAttribute('class', 'far fa-heart edit-heart');
+  //   }
+
+  //   var $streetDiv = document.createElement('div');
+  //   var $street = document.createElement('p');
+  //   $street.setAttribute('class', 'street');
+  //   $street.textContent = data.allProperties[i].location.address.line + ', ' + data.allProperties[i].location.address.city;
+  //   var $zipCodeDiv = document.createElement('div');
+  //   var $zipCode = document.createElement('p');
+  //   $zipCode.setAttribute('class', 'zip-code');
+  //   $zipCode.textContent = data.allProperties[i].location.address.state_code + ', ' + data.allProperties[i].location.address.postal_code;
+  //   $listingRow.appendChild($columnThird);
+  //   $columnThird.appendChild($listing);
+  //   $listing.appendChild($listingImage);
+  //   $listing.appendChild($listingPriceDiv);
+  //   $listingPriceDiv.appendChild($listingPrice);
+  //   $listingPriceDiv.appendChild($createFavoriteIcon);
+  //   $listing.appendChild($streetDiv);
+  //   $streetDiv.appendChild($street);
+  //   $listing.appendChild($zipCodeDiv);
+  //   $zipCodeDiv.appendChild($zipCode);
+
+  //   $createFavoriteIcon.addEventListener('click', event => {
+  //     var propertyId = event.target.closest('.listing').getAttribute('data-propertyid');
+  //     for (var i = 0; i < data.allProperties.length; i++) {
+  //       if (data.allProperties[i].property_id === propertyId) {
+  //         data.favorite.push(data.allProperties[i]);
+  //       }
+  //     }
+  //     event.target.closest('i').className = 'fas fa-heart edit-heart';
+  //   });
+  // }
+
+  // return $listingRow;
 }
 
 var intervalID = null;
@@ -198,7 +258,11 @@ function renderListingDetail() {
   $createDetailPrice.textContent = '$ ' + data.propertyDetail.list_price.toLocaleString('en-US');
 
   var $createDetailHeart = document.createElement('i');
-  $createDetailHeart.setAttribute('class', 'far fa-heart edit-detail-heart');
+  if (data.favorite.some(favorite => { return favorite.property_id === data.propertyDetail.property_id; })) {
+    $createDetailHeart.setAttribute('class', 'fas fa-heart edit-detail-heart');
+  } else {
+    $createDetailHeart.setAttribute('class', 'far fa-heart edit-detail-heart');
+  }
 
   var $createDetailAddress = document.createElement('div');
   $createDetailAddress.setAttribute('class', 'detail-address');

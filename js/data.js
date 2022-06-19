@@ -5,6 +5,7 @@ var data = {
   count: 0,
   favorite: []
 };
+
 var previousTodosJSON = localStorage.getItem('myFavorite');
 if (previousTodosJSON !== null) {
   data.favorite = JSON.parse(previousTodosJSON);

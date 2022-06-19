@@ -110,9 +110,9 @@ function renderOneListListing(property) {
 
   var $createFavoriteIcon = document.createElement('i');
   if (data.favorite.some(function (favorite) { return favorite.property_id === property.property_id; })) {
-    $createFavoriteIcon.setAttribute('class', 'fas fa-heart edit-heart');
+    $createFavoriteIcon.setAttribute('class', 'fas fa-heart edit-heart hover-effects');
   } else {
-    $createFavoriteIcon.setAttribute('class', 'far fa-heart edit-heart');
+    $createFavoriteIcon.setAttribute('class', 'far fa-heart edit-heart hover-effects');
   }
 
   var $streetDiv = document.createElement('div');
@@ -136,7 +136,7 @@ function renderOneListListing(property) {
 
   $createFavoriteIcon.addEventListener('click', event => {
     data.favorite.push(property);
-    event.target.closest('i').className = 'fas fa-heart edit-heart';
+    event.target.closest('i').className = 'fas fa-heart edit-heart hover-effects';
   });
 
   return $listingRow;
@@ -196,9 +196,9 @@ function renderOneListingDetail(propertyDetail) {
 
   var $createDetailHeart = document.createElement('i');
   if (data.favorite.some(favorite => { return favorite.property_id === propertyDetail.property_id; })) {
-    $createDetailHeart.setAttribute('class', 'fas fa-heart edit-detail-heart');
+    $createDetailHeart.setAttribute('class', 'fas fa-heart edit-detail-heart hover-effects');
   } else {
-    $createDetailHeart.setAttribute('class', 'far fa-heart edit-detail-heart');
+    $createDetailHeart.setAttribute('class', 'far fa-heart edit-detail-heart hover-effects');
   }
 
   var $createDetailAddress = document.createElement('div');
@@ -208,7 +208,7 @@ function renderOneListingDetail(propertyDetail) {
   var $createFourColumnDiv = document.createElement('div');
   $createFourColumnDiv.setAttribute('class', 'row add-space-between');
   var $createIconColumnhalf = document.createElement('div');
-  $createIconColumnhalf.setAttribute('class', 'column-half add-overlay');
+  $createIconColumnhalf.setAttribute('class', 'column-half add-overlay hover-effect');
   var $createDetailIconDiv = document.createElement('div');
   $createDetailIconDiv.setAttribute('class', 'detail-icons row');
   var $createSmallIconDiv = document.createElement('div');
@@ -225,7 +225,7 @@ function renderOneListingDetail(propertyDetail) {
   $createAreaContentDetail.textContent = propertyDetail.description.sqft;
 
   var $createIconColumnhalfType = document.createElement('div');
-  $createIconColumnhalfType.setAttribute('class', 'column-half add-overlay');
+  $createIconColumnhalfType.setAttribute('class', 'column-half add-overlay hover-effect');
   var $createDetailIconDivType = document.createElement('div');
   $createDetailIconDivType.setAttribute('class', 'detail-icons row');
   var $createSmallIconDivType = document.createElement('div');
@@ -252,7 +252,7 @@ function renderOneListingDetail(propertyDetail) {
   $createTypeContentDetail.textContent = propertyDetail.description.type;
 
   var $createIconColumnhalfBedroom = document.createElement('div');
-  $createIconColumnhalfBedroom.setAttribute('class', 'column-half add-overlay');
+  $createIconColumnhalfBedroom.setAttribute('class', 'column-half add-overlay hover-effect');
   var $createDetailIconDivBedroom = document.createElement('div');
   $createDetailIconDivBedroom.setAttribute('class', 'detail-icons row');
   var $createSmallIconDivBedroom = document.createElement('div');
@@ -269,7 +269,7 @@ function renderOneListingDetail(propertyDetail) {
   $createBedroomContentDetail.textContent = propertyDetail.description.beds;
 
   var $createIconColumnhalfBathroom = document.createElement('div');
-  $createIconColumnhalfBathroom.setAttribute('class', 'column-half add-overlay');
+  $createIconColumnhalfBathroom.setAttribute('class', 'column-half add-overlay hover-effect');
   var $createDetailIconDivBathroom = document.createElement('div');
   $createDetailIconDivBathroom.setAttribute('class', 'detail-icons row');
   var $createSmallIconDivBathroom = document.createElement('div');
@@ -373,10 +373,10 @@ function renderOneListingDetail(propertyDetail) {
 
   $createDetailHeart.addEventListener('click', event => {
     data.favorite.push(propertyDetail);
-    event.target.closest('i').className = 'fas fa-heart edit-detail-heart';
+    event.target.closest('i').className = 'fas fa-heart edit-detail-heart hover-effects';
   });
 
-  var $selectAllIcon = document.querySelectorAll('.for-Dom-select-detail');
+  var $selectAllIcon = document.querySelectorAll('.for-Dom-select-detail hover-effects');
   $createDotsRow.addEventListener('click', event => {
     clearInterval(intervalID);
     data.count = 0;

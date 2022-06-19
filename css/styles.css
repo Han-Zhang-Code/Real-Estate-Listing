@@ -153,6 +153,7 @@ select {
 .hover-effects:hover {
   transform: scale(1.1);
   cursor: pointer;
+  transition: transform 0.5s;
 }
 
 .hover-effect:hover {

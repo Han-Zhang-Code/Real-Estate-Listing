@@ -320,7 +320,7 @@ function renderOneListingDetail(propertyDetail) {
   $createAverageTitle.textContent = 'Average Listing Price in ' + propertyDetail.location.address.city + ':';
   var $createAverage = document.createElement('p');
   $createAverage.setAttribute('class', 'average-price');
-  $createAverage.textContent = '$' + average.toLocaleString('en-US', { maximumFractionDigits: 2 });
+  $createAverage.textContent = '$' + average.toLocaleString('en-US', { maximumFractionDigits: 0 });
 
   $listingDetailContainer.appendChild($createDetailTextColumn);
   $createDetailTextColumn.appendChild($createPriceDiv);

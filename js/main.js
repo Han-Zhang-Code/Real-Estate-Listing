@@ -376,7 +376,7 @@ function renderOneListingDetail(propertyDetail) {
     event.target.closest('i').className = 'fas fa-heart edit-detail-heart hover-effects';
   });
 
-  var $selectAllIcon = document.querySelectorAll('.for-Dom-select-detail hover-effects');
+  var $selectAllIcon = document.querySelectorAll('.for-Dom-select-detail');
   $createDotsRow.addEventListener('click', event => {
     clearInterval(intervalID);
     data.count = 0;

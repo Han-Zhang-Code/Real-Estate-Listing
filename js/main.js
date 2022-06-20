@@ -54,7 +54,10 @@ function goBackToListing(event) {
   $searchSection.className = 'search-section hidden';
   $listingDetailRow.className = 'listing-detail hidden';
   empty($listingDetailContainer);
+  empty($listingRow);
+  renderListLising();
   data.propertyDetail = null;
+
   data.count = 0;
   clearInterval(intervalID);
 
@@ -83,125 +86,71 @@ function selectListing(event) {
     return 0;
   }
 }
+
+function renderOneListListing(property) {
+  var $columnThird = document.createElement('div');
+  $columnThird.setAttribute('class', 'column-third add-align-items row');
+  var $listing = document.createElement('div');
+  $listing.setAttribute('class', 'listing  hover-effect');
+  $listing.setAttribute('data-propertyID', property.property_id);
+  var $listingImage = document.createElement('img');
+  if (property.primary_photo === null) {
+    $listingImage.setAttribute('src', 'images/PhotoNotAvaliable.jpeg');
+    $listingImage.setAttribute('alt', 'image not avaliable');
+    $listingImage.setAttribute('class', 'columnfull listing-img mouse-hover');
+  } else {
+    $listingImage.setAttribute('src', property.primary_photo.href);
+    $listingImage.setAttribute('class', 'columnfull listing-img mouse-hover');
+  }
+  var $listingPriceDiv = document.createElement('div');
+  $listingPriceDiv.setAttribute('class', 'row add-space-between add-align-items');
+  var $listingPrice = document.createElement('p');
+  $listingPrice.setAttribute('class', 'listing-price');
+  $listingPrice.textContent = '$ ' + property.list_price.toLocaleString('en-US');
+
+  var $createFavoriteIcon = document.createElement('i');
+  if (data.favorite.some(function (favorite) { return favorite.property_id === property.property_id; })) {
+    $createFavoriteIcon.setAttribute('class', 'fas fa-heart edit-heart hover-effects');
+  } else {
+    $createFavoriteIcon.setAttribute('class', 'far fa-heart edit-heart hover-effects');
+  }
+
+  var $streetDiv = document.createElement('div');
+  var $street = document.createElement('p');
+  $street.setAttribute('class', 'street');
+  $street.textContent = property.location.address.line + ', ' + property.location.address.city;
+  var $zipCodeDiv = document.createElement('div');
+  var $zipCode = document.createElement('p');
+  $zipCode.setAttribute('class', 'zip-code');
+  $zipCode.textContent = property.location.address.state_code + ', ' + property.location.address.postal_code;
+  $listingRow.appendChild($columnThird);
+  $columnThird.appendChild($listing);
+  $listing.appendChild($listingImage);
+  $listing.appendChild($listingPriceDiv);
+  $listingPriceDiv.appendChild($listingPrice);
+  $listingPriceDiv.appendChild($createFavoriteIcon);
+  $listing.appendChild($streetDiv);
+  $streetDiv.appendChild($street);
+  $listing.appendChild($zipCodeDiv);
+  $zipCodeDiv.appendChild($zipCode);
+
+  $createFavoriteIcon.addEventListener('click', event => {
+    data.favorite.push(property);
+    event.target.closest('i').className = 'fas fa-heart edit-heart hover-effects';
+  });
+
+  return $listingRow;
+}
+
 var $listingDetailContainer = document.querySelector('#listingDetail');
 function renderListLising() {
   for (var i = 0; i < data.allProperties.length; i++) {
-    var $columnThird = document.createElement('div');
-    $columnThird.setAttribute('class', 'column-third add-align-items row');
-    var $listing = document.createElement('div');
-    $listing.setAttribute('class', 'listing  hover-effect');
-    $listing.setAttribute('data-propertyID', data.allProperties[i].property_id);
-    var $listingImage = document.createElement('img');
-    if (data.allProperties[i].primary_photo === null) {
-      $listingImage.setAttribute('src', 'images/PhotoNotAvaliable.jpeg');
-      $listingImage.setAttribute('alt', 'image not avaliable');
-      $listingImage.setAttribute('class', 'columnfull listing-img mouse-hover');
-    } else {
-      $listingImage.setAttribute('src', data.allProperties[i].primary_photo.href);
-      $listingImage.setAttribute('class', 'columnfull listing-img mouse-hover');
-    }
-    var $listingPriceDiv = document.createElement('div');
-    var $listingPrice = document.createElement('p');
-    $listingPrice.setAttribute('class', 'listing-price');
-    $listingPrice.textContent = '$ ' + data.allProperties[i].list_price.toLocaleString('en-US');
-    var $streetDiv = document.createElement('div');
-    var $street = document.createElement('p');
-    $street.setAttribute('class', 'street');
-    $street.textContent = data.allProperties[i].location.address.line + ', ' + data.allProperties[i].location.address.city;
-    var $zipCodeDiv = document.createElement('div');
-    var $zipCode = document.createElement('p');
-    $zipCode.setAttribute('class', 'zip-code');
-    $zipCode.textContent = data.allProperties[i].location.address.state_code + ', ' + data.allProperties[i].location.address.postal_code;
-    $listingRow.appendChild($columnThird);
-    $columnThird.appendChild($listing);
-    $listing.appendChild($listingImage);
-    $listing.appendChild($listingPriceDiv);
-    $listingPriceDiv.appendChild($listingPrice);
-    $listing.appendChild($streetDiv);
-    $streetDiv.appendChild($street);
-    $listing.appendChild($zipCodeDiv);
-    $zipCodeDiv.appendChild($zipCode);
+    renderOneListListing(data.allProperties[i]);
   }
-  return $listingRow;
 }
-// <div class="column-half row add-flex-direction add-align-items full-width-mobile">
-//   <div class="detail-images add-align-items row">
-//     <img src="images/original.jpeg" class="column-full">
-//   </div>
-//   <div class="dots add-align-items add-flex-direction">
-//     <i class="fas fa-dot-circle fa-2xs add-padding"></i>
-//     <i class="fas fa-circle fa-2xs add-padding"></i>
-//     <i class="fas fa-circle fa-2xs add-padding"></i>
-//   </div>
-// </div>
-// <div class="column-half full-width-mobile">
-//   <div class="detail-price">$897,799</div>
-//   <div class="detail-address">1403 Albany St, Los Angeles, CA 90015</div>
-//   <div class="row add-space-between">
-//     <div class="column-half add-overlay">
-//       <div class="detail-icons row">
-//         <div class="column-half add-align-items row">
-//           <i class="fas fa-vector-square fa-4x add-color adjust-icon-size"></i>
-//         </div>
-//         <div class="column-half">
-//           <p class="detail-title">Area</p>
-//           <p class="detail-content">2682 sqft</p>
-//         </div>
-//       </div>
-//     </div>
-//     <div class="column-half add-overlay">
-//       <div class="detail-icons row">
-//         <div class="column-half add-align-items row">
-//           <i class="fas fa-house-user fa-3x add-color adjust-icon-size"></i>
-//         </div>
-//         <div class="column-half">
-//           <p class="detail-title">House Type</p>
-//           <p class="detail-content">Multi-Family</p>
-//         </div>
-//       </div>
-//     </div>
-//   </div>
-//   <div class="row add-space-between">
-//     <div class="column-half add-overlay">
-//       <div class="detail-icons row">
-//         <div class="column-half add-align-items row">
-//           <i class="fas fa-bed fa-3x add-color adjust-icon-size"></i>
-//         </div>
-//         <div class="column-half">
-//           <p class="detail-title">Bedrooms</p>
-//           <p class="detail-content">5</p>
-//         </div>
-//       </div>
-//     </div>
-//     <div class="column-half add-overlay">
-//       <div class="detail-icons row">
-//         <div class="column-half add-align-items row">
-//           <i class="fas fa-bath fa-3x add-color adjust-icon-size"></i>
-//         </div>
-//         <div class="column-half">
-//           <p class="detail-title">Bathrooms</p>
-//           <p class="detail-content">2</p>
-//         </div>
-//       </div>
-//     </div>
 
-//   </div>
-//   <div>
-//     <p class="description-title">Description</p>
-//   </div>
-//   <div>
-//     <p class="description-content">This muti-family type house has 5 bedrooms and 2 bathrooms, the house
-//       itself has the site area of 2,682 square feet,
-//       with the lot size of 5,985 square feet. its last sold price is $550,000 on the date 2015-06-29.</p>
-//   </div>
-//   <div class="row add-space-between">
-//     <p class="average-price">Average Listing Price in Los Angeles:</p>
-//     <p class="average-price">$ 1,007,124</p>
-//   </div>
-// </div>
-// above commented code will delete in next feature
 var intervalID = null;
-function renderListingDetail() {
+function renderOneListingDetail(propertyDetail) {
 
   var $columnHalfWhole = document.createElement('div');
   $columnHalfWhole.setAttribute('class', 'column-half row add-flex-direction add-align-items full-width-mobile');
@@ -209,24 +158,24 @@ function renderListingDetail() {
   $imageDiv.setAttribute('class', 'detail-images add-align-items row');
   var $createDetailImage = document.createElement('img');
 
-  if (data.propertyDetail.photos === null) {
+  if (propertyDetail.photos === null) {
     $createDetailImage.setAttribute('src', 'images/PhotoNotAvaliable.jpeg');
-    $createDetailImage.setAttribute('class', 'column-full');
+    $createDetailImage.setAttribute('class', 'column-full hover-effect');
   } else {
-    $createDetailImage.setAttribute('src', data.propertyDetail.photos[0].href);
-    $createDetailImage.setAttribute('class', 'column-full');
+    $createDetailImage.setAttribute('src', propertyDetail.photos[0].href);
+    $createDetailImage.setAttribute('class', 'column-full hover-effect');
   }
 
   var $createDotsRow = document.createElement('div');
   $createDotsRow.setAttribute('class', 'dots add-align-items add-flex-direction');
   var $createHoloDot = document.createElement('i');
-  $createHoloDot.setAttribute('class', 'fas fa-dot-circle fa-2xs add-padding for-Dom-select-detail');
+  $createHoloDot.setAttribute('class', 'fas fa-dot-circle fa-2xs add-padding for-Dom-select-detail hover-effects');
   $createHoloDot.setAttribute('data-id', 0);
   $createDotsRow.appendChild($createHoloDot);
-  if (data.propertyDetail.photos !== null) {
-    for (var i = 1; i < data.propertyDetail.photos.length; i++) {
+  if (propertyDetail.photos !== null) {
+    for (var i = 1; i < propertyDetail.photos.length; i++) {
       var $createDot = document.createElement('i');
-      $createDot.setAttribute('class', 'fas fa-circle fa-2xs add-padding for-Dom-select-detail');
+      $createDot.setAttribute('class', 'fas fa-circle fa-2xs add-padding for-Dom-select-detail hover-effects');
       $createDot.setAttribute('data-id', i);
       $createDotsRow.appendChild($createDot);
     }
@@ -237,17 +186,29 @@ function renderListingDetail() {
   $columnHalfWhole.appendChild($createDotsRow);
   var $createDetailTextColumn = document.createElement('div');
   $createDetailTextColumn.setAttribute('class', 'column-half full-width-mobile');
+
+  var $createPriceDiv = document.createElement('div');
+  $createPriceDiv.setAttribute('class', 'row add-space-between add-align-items');
+
   var $createDetailPrice = document.createElement('div');
   $createDetailPrice.setAttribute('class', 'detail-price');
-  $createDetailPrice.textContent = '$ ' + data.propertyDetail.list_price.toLocaleString('en-US');
+  $createDetailPrice.textContent = '$ ' + propertyDetail.list_price.toLocaleString('en-US');
+
+  var $createDetailHeart = document.createElement('i');
+  if (data.favorite.some(favorite => { return favorite.property_id === propertyDetail.property_id; })) {
+    $createDetailHeart.setAttribute('class', 'fas fa-heart edit-detail-heart hover-effects');
+  } else {
+    $createDetailHeart.setAttribute('class', 'far fa-heart edit-detail-heart hover-effects');
+  }
+
   var $createDetailAddress = document.createElement('div');
   $createDetailAddress.setAttribute('class', 'detail-address');
-  $createDetailAddress.textContent = data.propertyDetail.location.address.line + ', ' + data.propertyDetail.location.address.city + ', ' + data.propertyDetail.location.address.state_code + ', ' + data.propertyDetail.location.address.postal_code;
+  $createDetailAddress.textContent = propertyDetail.location.address.line + ', ' + propertyDetail.location.address.city + ', ' + propertyDetail.location.address.state_code + ', ' + propertyDetail.location.address.postal_code;
 
   var $createFourColumnDiv = document.createElement('div');
   $createFourColumnDiv.setAttribute('class', 'row add-space-between');
   var $createIconColumnhalf = document.createElement('div');
-  $createIconColumnhalf.setAttribute('class', 'column-half add-overlay');
+  $createIconColumnhalf.setAttribute('class', 'column-half add-overlay hover-effect');
   var $createDetailIconDiv = document.createElement('div');
   $createDetailIconDiv.setAttribute('class', 'detail-icons row');
   var $createSmallIconDiv = document.createElement('div');
@@ -261,10 +222,10 @@ function renderListingDetail() {
   $createAreaContent.textContent = 'Area';
   var $createAreaContentDetail = document.createElement('p');
   $createAreaContentDetail.setAttribute('class', 'detail-title');
-  $createAreaContentDetail.textContent = data.propertyDetail.description.sqft;
+  $createAreaContentDetail.textContent = propertyDetail.description.sqft;
 
   var $createIconColumnhalfType = document.createElement('div');
-  $createIconColumnhalfType.setAttribute('class', 'column-half add-overlay');
+  $createIconColumnhalfType.setAttribute('class', 'column-half add-overlay hover-effect');
   var $createDetailIconDivType = document.createElement('div');
   $createDetailIconDivType.setAttribute('class', 'detail-icons row');
   var $createSmallIconDivType = document.createElement('div');
@@ -279,19 +240,19 @@ function renderListingDetail() {
   var $createTypeContentDetail = document.createElement('p');
   $createTypeContentDetail.setAttribute('class', 'detail-title');
   var needCapitals = ['condos', 'farm', 'townhome', 'land', 'mobile'];
-  if (needCapitals.includes(data.propertyDetail.description.type)) {
-    var temp = data.propertyDetail.description.type.split('');
+  if (needCapitals.includes(propertyDetail.description.type)) {
+    var temp = propertyDetail.description.type.split('');
     temp[0] = temp[0].toUpperCase();
-    data.propertyDetail.description.type = temp.join('');
-  } else if (data.propertyDetail.description.type === 'single_family') {
-    data.propertyDetail.description.type = 'Single-Family';
-  } else if (data.propertyDetail.description.type === 'multi_family') {
-    data.propertyDetail.description.type = 'Multi-Family';
+    propertyDetail.description.type = temp.join('');
+  } else if (propertyDetail.description.type === 'single_family') {
+    propertyDetail.description.type = 'Single-Family';
+  } else if (propertyDetail.description.type === 'multi_family') {
+    propertyDetail.description.type = 'Multi-Family';
   }
-  $createTypeContentDetail.textContent = data.propertyDetail.description.type;
+  $createTypeContentDetail.textContent = propertyDetail.description.type;
 
   var $createIconColumnhalfBedroom = document.createElement('div');
-  $createIconColumnhalfBedroom.setAttribute('class', 'column-half add-overlay');
+  $createIconColumnhalfBedroom.setAttribute('class', 'column-half add-overlay hover-effect');
   var $createDetailIconDivBedroom = document.createElement('div');
   $createDetailIconDivBedroom.setAttribute('class', 'detail-icons row');
   var $createSmallIconDivBedroom = document.createElement('div');
@@ -305,10 +266,10 @@ function renderListingDetail() {
   $createBedroomContent.textContent = 'Bedroom';
   var $createBedroomContentDetail = document.createElement('p');
   $createBedroomContentDetail.setAttribute('class', 'detail-title');
-  $createBedroomContentDetail.textContent = data.propertyDetail.description.beds;
+  $createBedroomContentDetail.textContent = propertyDetail.description.beds;
 
   var $createIconColumnhalfBathroom = document.createElement('div');
-  $createIconColumnhalfBathroom.setAttribute('class', 'column-half add-overlay');
+  $createIconColumnhalfBathroom.setAttribute('class', 'column-half add-overlay hover-effect');
   var $createDetailIconDivBathroom = document.createElement('div');
   $createDetailIconDivBathroom.setAttribute('class', 'detail-icons row');
   var $createSmallIconDivBathroom = document.createElement('div');
@@ -322,7 +283,7 @@ function renderListingDetail() {
   $createBathroomContent.textContent = 'Bathroom';
   var $createBathroomContentDetail = document.createElement('p');
   $createBathroomContentDetail.setAttribute('class', 'detail-title');
-  $createBathroomContentDetail.textContent = data.propertyDetail.description.baths;
+  $createBathroomContentDetail.textContent = propertyDetail.description.baths;
 
   var $createDescriptionTitleDiv = document.createElement('div');
   var $createDescriptionTitle = document.createElement('p');
@@ -332,18 +293,18 @@ function renderListingDetail() {
   var $createDescriptionContentDiv = document.createElement('div');
   var $createDescriptionContent = document.createElement('p');
 
-  if (data.propertyDetail.description.sold_price === null) {
-    data.propertyDetail.description.sold_price = 'not provided';
+  if (propertyDetail.description.sold_price === null) {
+    propertyDetail.description.sold_price = 'not provided';
   }
 
   $createDescriptionContent.setAttribute('class', 'description-content');
-  $createDescriptionContent.textContent = 'This ' + data.propertyDetail.description.type +
-  ' house has ' + data.propertyDetail.description.beds + ' bedrooms and ' +
-  data.propertyDetail.description.baths + ' bathrooms, the house it-self has the site area of ' +
-  data.propertyDetail.description.sqft + ' square feet, with the lot size of ' +
-  data.propertyDetail.description.lot_sqft + ' square feet. its last sold price is $' +
-  data.propertyDetail.description.sold_price.toLocaleString('en-US') + ' on the date ' +
-  data.propertyDetail.description.sold_date + '.';
+  $createDescriptionContent.textContent = 'This ' + propertyDetail.description.type +
+  ' house has ' + propertyDetail.description.beds + ' bedrooms and ' +
+  propertyDetail.description.baths + ' bathrooms, the house it-self has the site area of ' +
+  propertyDetail.description.sqft + ' square feet, with the lot size of ' +
+  propertyDetail.description.lot_sqft + ' square feet. its last sold price is $' +
+  propertyDetail.description.sold_price.toLocaleString('en-US') + ' on the date ' +
+  propertyDetail.description.sold_date + '.';
 
   var average = 0;
   var sum = 0;
@@ -356,13 +317,15 @@ function renderListingDetail() {
   $createAverageDiv.setAttribute('class', 'row add-space-between');
   var $createAverageTitle = document.createElement('p');
   $createAverageTitle.setAttribute('class', 'average-price');
-  $createAverageTitle.textContent = 'Average Listing Price in ' + data.propertyDetail.location.address.city + ':';
+  $createAverageTitle.textContent = 'Average Listing Price in ' + propertyDetail.location.address.city + ':';
   var $createAverage = document.createElement('p');
   $createAverage.setAttribute('class', 'average-price');
-  $createAverage.textContent = '$' + average.toLocaleString('en-US', { maximumFractionDigits: 2 });
+  $createAverage.textContent = '$' + average.toLocaleString('en-US', { maximumFractionDigits: 0 });
 
   $listingDetailContainer.appendChild($createDetailTextColumn);
-  $createDetailTextColumn.appendChild($createDetailPrice);
+  $createDetailTextColumn.appendChild($createPriceDiv);
+  $createPriceDiv.appendChild($createDetailPrice);
+  $createPriceDiv.appendChild($createDetailHeart);
   $createDetailTextColumn.appendChild($createDetailAddress);
 
   $createDetailTextColumn.appendChild($createFourColumnDiv);
@@ -408,19 +371,26 @@ function renderListingDetail() {
   $createAverageDiv.appendChild($createAverageTitle);
   $createAverageDiv.appendChild($createAverage);
 
-  var $selectAllIcon = document.querySelectorAll('.for-Dom-select-detail');
+  $createDetailHeart.addEventListener('click', event => {
+    data.favorite.push(propertyDetail);
+    event.target.closest('i').className = 'fas fa-heart edit-detail-heart hover-effects';
+  });
+
+  var $selectAllIcon = document.querySelectorAll('.for-Dom-select-detail hover-effects');
   $createDotsRow.addEventListener('click', event => {
     clearInterval(intervalID);
     data.count = 0;
     intervalID = setInterval(() => {
       if (data.count < $selectAllIcon.length - 1) {
-        $selectAllIcon[data.count].className = 'fas fa-circle fa-2xs add-padding for-Dom-select-detail';
-        $selectAllIcon[data.count + 1].className = 'fas fa-dot-circle fa-2xs add-padding for-Dom-select-detail';
-        $createDetailImage.setAttribute('src', data.propertyDetail.photos[data.count + 1].href);
+        $selectAllIcon[data.count].className = 'fas fa-circle fa-2xs add-padding for-Dom-select-detail hover-effects';
+        $selectAllIcon[data.count + 1].className = 'fas fa-dot-circle fa-2xs add-padding for-Dom-select-detail hover-effects';
+        $createDetailImage.setAttribute('src', propertyDetail.photos[data.count + 1].href);
+        $createDetailImage.setAttribute('class', 'column-full hover-effect');
       } else if (data.count === $selectAllIcon.length - 1) {
-        $selectAllIcon[data.count].className = 'fas fa-circle fa-2xs add-padding for-Dom-select-detail';
-        $selectAllIcon[0].className = 'fas fa-dot-circle fa-2xs add-padding for-Dom-select-detail';
-        $createDetailImage.setAttribute('src', data.propertyDetail.photos[0].href);
+        $selectAllIcon[data.count].className = 'fas fa-circle fa-2xs add-padding for-Dom-select-detail hover-effects';
+        $selectAllIcon[0].className = 'fas fa-dot-circle fa-2xs add-padding for-Dom-select-detail hover-effects';
+        $createDetailImage.setAttribute('src', propertyDetail.photos[0].href);
+        $createDetailImage.setAttribute('class', 'column-full hover-effect');
       }
       if (data.count < $selectAllIcon.length - 1) {
         data.count++;
@@ -431,33 +401,38 @@ function renderListingDetail() {
     }, 3000);
     for (var i = 0; i < $selectAllIcon.length; i++) {
       if (event.target.matches('i')) {
-        $selectAllIcon[i].className = 'fas fa-circle fa-2xs add-padding for-Dom-select-detail';
+        $selectAllIcon[i].className = 'fas fa-circle fa-2xs add-padding for-Dom-select-detail hover-effects';
       }
       if ($selectAllIcon[i].getAttribute('data-id') === event.target.getAttribute('data-id')) {
-        $selectAllIcon[i].className = 'fas fa-dot-circle fa-2xs add-padding for-Dom-select-detail';
-        $createDetailImage.setAttribute('src', data.propertyDetail.photos[i].href);
+        $selectAllIcon[i].className = 'fas fa-dot-circle fa-2xs add-padding for-Dom-select-detail hover-effects';
+        $createDetailImage.setAttribute('src', propertyDetail.photos[i].href);
+        $createDetailImage.setAttribute('class', 'column-full hover-effect');
       }
     }
   });
 
   intervalID = setInterval(() => {
     if (data.count < $selectAllIcon.length - 1) {
-      $selectAllIcon[data.count].className = 'fas fa-circle fa-2xs add-padding for-Dom-select-detail';
-      $selectAllIcon[data.count + 1].className = 'fas fa-dot-circle fa-2xs add-padding for-Dom-select-detail';
-      $createDetailImage.setAttribute('src', data.propertyDetail.photos[data.count + 1].href);
+      $selectAllIcon[data.count].className = 'fas fa-circle fa-2xs add-padding for-Dom-select-detail hover-effects';
+      $selectAllIcon[data.count + 1].className = 'fas fa-dot-circle fa-2xs add-padding for-Dom-select-detail hover-effects';
+      $createDetailImage.setAttribute('src', propertyDetail.photos[data.count + 1].href);
+      $createDetailImage.setAttribute('class', 'column-full hover-effect');
     } else if (data.count === $selectAllIcon.length - 1) {
-      $selectAllIcon[data.count].className = 'fas fa-circle fa-2xs add-padding for-Dom-select-detail';
-      $selectAllIcon[0].className = 'fas fa-dot-circle fa-2xs add-padding for-Dom-select-detail';
-      $createDetailImage.setAttribute('src', data.propertyDetail.photos[0].href);
+      $selectAllIcon[data.count].className = 'fas fa-circle fa-2xs add-padding for-Dom-select-detail hover-effects';
+      $selectAllIcon[0].className = 'fas fa-dot-circle fa-2xs add-padding for-Dom-select-detail hover-effects';
+      $createDetailImage.setAttribute('src', propertyDetail.photos[0].href);
+      $createDetailImage.setAttribute('class', 'column-full hover-effect');
     }
     if (data.count < $selectAllIcon.length - 1) {
       data.count++;
     } else if (data.count === $selectAllIcon.length - 1) {
       data.count = 0;
     }
-
   }, 3000);
 
   return $listingDetailContainer;
+}
 
+function renderListingDetail() {
+  renderOneListingDetail(data.propertyDetail);
 }

@@ -8,6 +8,7 @@ $submit.addEventListener('submit', submited);
 var $listingRow = document.querySelector('#listing');
 var $listingDetailRow = document.querySelector('#listing-detail-div');
 var $favoriteListingRow = document.querySelector('#favoriteListing');
+var $favoriteSection = document.querySelector('#favorite-list-div');
 
 function submited(event) {
   event.preventDefault();
@@ -32,6 +33,7 @@ function submited(event) {
   $searchSection.className = 'search-section hidden';
   $listingSection.className = 'listing-section';
   $listingDetailRow.className = 'listing-detail hidden';
+  $favoriteSection.className = 'favorite-section hidden';
   $submit.reset();
 
 }
@@ -39,11 +41,13 @@ function submited(event) {
 var $searchSection = document.querySelector('.search-section');
 var $listingSection = document.querySelector('.listing-section');
 var $listingBack = document.querySelector('#listingBack');
+var $favoriteBack = document.querySelector('#favoriteBack');
 $listingBack.addEventListener('click', goBackToHome);
 function goBackToHome(event) {
   $listingSection.className = 'listing-section hidden';
   $searchSection.className = 'search-section ';
   $listingDetailRow.className = 'listing-detail hidden';
+  $favoriteSection.className = 'favorite-section hidden';
   empty($listingRow);
   data.allProperties = [];
 }
@@ -54,7 +58,9 @@ function goBackToListing(event) {
   $listingSection.className = 'listing-section ';
   $searchSection.className = 'search-section hidden';
   $listingDetailRow.className = 'listing-detail hidden';
+  $favoriteSection.className = 'favorite-section hidden';
   empty($listingDetailContainer);
+  empty($favoriteListingRow);
   empty($listingRow);
   renderListLising();
   data.propertyDetail = null;
@@ -62,6 +68,21 @@ function goBackToListing(event) {
   data.count = 0;
   clearInterval(intervalID);
 
+}
+$favoriteBack.addEventListener('click', backFromFavorite);
+function backFromFavorite() {
+  $listingSection.className = 'listing-section ';
+  $searchSection.className = 'search-section hidden';
+  $listingDetailRow.className = 'listing-detail hidden';
+  $favoriteSection.className = 'favorite-section hidden';
+  // empty($favoriteListingRow);
+  empty($listingDetailContainer);
+  empty($listingRow);
+  renderListLising();
+  data.propertyDetail = null;
+
+  data.count = 0;
+  clearInterval(intervalID);
 }
 
 function empty(element) {
@@ -72,6 +93,7 @@ function empty(element) {
 
 $listingRow.addEventListener('click', selectListing);
 function selectListing(event) {
+  empty($listingDetailContainer);
   if (event.target.matches('img')) {
     var propertyId = event.target.closest('.listing').getAttribute('data-propertyid');
     for (var i = 0; i < data.allProperties.length; i++) {
@@ -83,6 +105,7 @@ function selectListing(event) {
     $searchSection.className = 'search-section hidden';
     $listingSection.className = 'listing-section hidden';
     $listingDetailRow.className = 'listing-detail';
+    $favoriteSection.className = 'favorite-section hidden';
   } else {
     return 0;
   }
@@ -441,10 +464,16 @@ function renderListingDetail() {
 var $myFavoriteList = document.querySelector('#favorite-list');
 $myFavoriteList.addEventListener('click', showFavoriteList);
 function showFavoriteList() {
+
+  $listingSection.className = 'listing-section hidden';
+  $searchSection.className = 'search-section hidden';
+  $listingDetailRow.className = 'listing-detail hidden';
+  $favoriteSection.className = 'favorite-section';
   for (var i = 0; i < data.favorite.length; i++) {
     renderOneFavoriteListListing(data.favorite[i]);
   }
 }
+
 function renderOneFavoriteListListing(favorite) {
   var $columnThird = document.createElement('div');
   $columnThird.setAttribute('class', 'column-third add-align-items row');
@@ -499,3 +528,4 @@ function renderOneFavoriteListListing(favorite) {
 
   return $favoriteListingRow;
 }
+$favoriteListingRow.addEventListener('click', selectListing);

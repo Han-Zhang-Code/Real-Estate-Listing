@@ -2,13 +2,27 @@
 var $cityName = document.querySelector('.city-name');
 var $state = document.querySelector('.chose-state');
 var $submit = document.querySelector('.search-form');
-
-$submit.addEventListener('submit', submited);
-
 var $listingRow = document.querySelector('#listing');
 var $listingDetailRow = document.querySelector('#listing-detail-div');
 var $favoriteListingRow = document.querySelector('#favoriteListing');
 var $favoriteSection = document.querySelector('#favorite-list-div');
+var $searchSection = document.querySelector('.search-section');
+var $listingSection = document.querySelector('.listing-section');
+var $listingBack = document.querySelector('#listingBack');
+var $favoriteBack = document.querySelector('#favoriteBack');
+var $listingDetailBack = document.querySelector('#listingDetailBack');
+var $listingDetailContainer = document.querySelector('#listingDetail');
+var $myFavoriteList = document.querySelector('#favorite-list');
+
+var intervalID = null;
+
+$submit.addEventListener('submit', submited);
+$listingBack.addEventListener('click', goBackToHome);
+$listingDetailBack.addEventListener('click', goBackToListing);
+$listingRow.addEventListener('click', selectListing);
+$favoriteBack.addEventListener('click', backFromFavorite);
+$favoriteListingRow.addEventListener('click', selectListing);
+$myFavoriteList.addEventListener('click', showFavoriteList);
 
 function submited(event) {
   event.preventDefault();
@@ -38,11 +52,6 @@ function submited(event) {
 
 }
 
-var $searchSection = document.querySelector('.search-section');
-var $listingSection = document.querySelector('.listing-section');
-var $listingBack = document.querySelector('#listingBack');
-var $favoriteBack = document.querySelector('#favoriteBack');
-$listingBack.addEventListener('click', goBackToHome);
 function goBackToHome(event) {
   $listingSection.className = 'listing-section hidden';
   $searchSection.className = 'search-section ';
@@ -52,8 +61,6 @@ function goBackToHome(event) {
   data.allProperties = [];
 }
 
-var $listingDetailBack = document.querySelector('#listingDetailBack');
-$listingDetailBack.addEventListener('click', goBackToListing);
 function goBackToListing(event) {
   $listingSection.className = 'listing-section ';
   $searchSection.className = 'search-section hidden';
@@ -69,7 +76,6 @@ function goBackToListing(event) {
   clearInterval(intervalID);
 
 }
-$favoriteBack.addEventListener('click', backFromFavorite);
 function backFromFavorite() {
   $listingSection.className = 'listing-section ';
   $searchSection.className = 'search-section hidden';
@@ -90,7 +96,6 @@ function empty(element) {
   }
 }
 
-$listingRow.addEventListener('click', selectListing);
 function selectListing(event) {
   empty($listingDetailContainer);
   if (event.target.matches('img')) {
@@ -146,7 +151,6 @@ function renderOneListListing(property) {
   var $zipCode = document.createElement('p');
   $zipCode.setAttribute('class', 'zip-code');
   $zipCode.textContent = property.location.address.state_code + ', ' + property.location.address.postal_code;
-  // $listingRow.appendChild($columnThird);
   $columnThird.appendChild($listing);
   $listing.appendChild($listingImage);
   $listing.appendChild($listingPriceDiv);
@@ -165,14 +169,12 @@ function renderOneListListing(property) {
   return $columnThird;
 }
 
-var $listingDetailContainer = document.querySelector('#listingDetail');
 function renderListLising() {
   for (var i = 0; i < data.allProperties.length; i++) {
     $listingRow.appendChild(renderOneListListing(data.allProperties[i]));
   }
 }
 
-var intervalID = null;
 function renderOneListingDetail(propertyDetail) {
 
   var $columnHalfWhole = document.createElement('div');
@@ -460,8 +462,6 @@ function renderListingDetail() {
   renderOneListingDetail(data.propertyDetail);
 }
 
-var $myFavoriteList = document.querySelector('#favorite-list');
-$myFavoriteList.addEventListener('click', showFavoriteList);
 function showFavoriteList() {
   data.count = 0;
   empty($favoriteListingRow);
@@ -473,5 +473,3 @@ function showFavoriteList() {
     $favoriteListingRow.appendChild(renderOneListListing(data.favorite[i]));
   }
 }
-
-$favoriteListingRow.addEventListener('click', selectListing);

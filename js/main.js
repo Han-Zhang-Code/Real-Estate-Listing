@@ -7,6 +7,7 @@ $submit.addEventListener('submit', submited);
 
 var $listingRow = document.querySelector('#listing');
 var $listingDetailRow = document.querySelector('#listing-detail-div');
+var $favoriteListingRow = document.querySelector('#favoriteListing');
 
 function submited(event) {
   event.preventDefault();
@@ -435,4 +436,66 @@ function renderOneListingDetail(propertyDetail) {
 
 function renderListingDetail() {
   renderOneListingDetail(data.propertyDetail);
+}
+
+var $myFavoriteList = document.querySelector('#favorite-list');
+$myFavoriteList.addEventListener('click', showFavoriteList);
+function showFavoriteList() {
+  for (var i = 0; i < data.favorite.length; i++) {
+    renderOneFavoriteListListing(data.favorite[i]);
+  }
+}
+function renderOneFavoriteListListing(favorite) {
+  var $columnThird = document.createElement('div');
+  $columnThird.setAttribute('class', 'column-third add-align-items row');
+  var $listing = document.createElement('div');
+  $listing.setAttribute('class', 'listing  hover-effect');
+  $listing.setAttribute('data-propertyID', favorite.property_id);
+  var $listingImage = document.createElement('img');
+  if (favorite.primary_photo === null) {
+    $listingImage.setAttribute('src', 'images/PhotoNotAvaliable.jpeg');
+    $listingImage.setAttribute('alt', 'image not avaliable');
+    $listingImage.setAttribute('class', 'columnfull listing-img mouse-hover');
+  } else {
+    $listingImage.setAttribute('src', favorite.primary_photo.href);
+    $listingImage.setAttribute('class', 'columnfull listing-img mouse-hover');
+  }
+  var $listingPriceDiv = document.createElement('div');
+  $listingPriceDiv.setAttribute('class', 'row add-space-between add-align-items');
+  var $listingPrice = document.createElement('p');
+  $listingPrice.setAttribute('class', 'listing-price');
+  $listingPrice.textContent = '$ ' + favorite.list_price.toLocaleString('en-US');
+
+  var $createFavoriteIcon = document.createElement('i');
+  if (data.favorite.some(function (favorites) { return favorites.property_id === favorite.property_id; })) {
+    $createFavoriteIcon.setAttribute('class', 'fas fa-heart edit-heart hover-effects');
+  } else {
+    $createFavoriteIcon.setAttribute('class', 'far fa-heart edit-heart hover-effects');
+  }
+
+  var $streetDiv = document.createElement('div');
+  var $street = document.createElement('p');
+  $street.setAttribute('class', 'street');
+  $street.textContent = favorite.location.address.line + ', ' + favorite.location.address.city;
+  var $zipCodeDiv = document.createElement('div');
+  var $zipCode = document.createElement('p');
+  $zipCode.setAttribute('class', 'zip-code');
+  $zipCode.textContent = favorite.location.address.state_code + ', ' + favorite.location.address.postal_code;
+  $favoriteListingRow.appendChild($columnThird);
+  $columnThird.appendChild($listing);
+  $listing.appendChild($listingImage);
+  $listing.appendChild($listingPriceDiv);
+  $listingPriceDiv.appendChild($listingPrice);
+  $listingPriceDiv.appendChild($createFavoriteIcon);
+  $listing.appendChild($streetDiv);
+  $streetDiv.appendChild($street);
+  $listing.appendChild($zipCodeDiv);
+  $zipCodeDiv.appendChild($zipCode);
+
+  $createFavoriteIcon.addEventListener('click', event => {
+    data.favorite.push(favorite);
+    event.target.closest('i').className = 'fas fa-heart edit-heart hover-effects';
+  });
+
+  return $favoriteListingRow;
 }

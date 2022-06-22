@@ -123,6 +123,12 @@ select {
   margin: auto;
 }
 
+.add-margin-auto {
+  padding-top: 100px;
+  padding-bottom: 100px;
+  margin: auto;
+}
+
 .listing-price {
   font-size: 25px;
   margin-top: 5px;

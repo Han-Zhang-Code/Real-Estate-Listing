@@ -13,6 +13,7 @@ var $favoriteBack = document.querySelector('#favoriteBack');
 var $listingDetailBack = document.querySelector('#listingDetailBack');
 var $listingDetailContainer = document.querySelector('#listingDetail');
 var $myFavoriteList = document.querySelector('#favorite-list');
+var $noFavorite = document.querySelector('#noFavorite');
 
 var intervalID = null;
 
@@ -28,10 +29,11 @@ function submited(event) {
   event.preventDefault();
   var cityName = $cityName.value;
   var state = $state.value;
-  const datas = null;
-  const xhr = new XMLHttpRequest();
+  var datas = null;
+  var xhr = new XMLHttpRequest();
   xhr.withCredentials = true;
-  xhr.open('GET', 'https://real-estate12.p.rapidapi.com/listings/sale?state=' + state + '&city=' + cityName + '&page=1');
+  var page = new URLSearchParams(window.location.search).get('page') || '1';
+  xhr.open('GET', 'https://real-estate12.p.rapidapi.com/listings/sale?state=' + state + '&city=' + cityName + '&page=' + page);
   xhr.responseType = 'json';
   xhr.setRequestHeader('X-RapidAPI-Key', 'd63b704875msheafa5d6283a4eb9p1edc65jsn7724aaf65392');
   xhr.setRequestHeader('X-RapidAPI-Host', 'real-estate12.p.rapidapi.com');
@@ -71,7 +73,6 @@ function goBackToListing(event) {
   empty($listingRow);
   renderListLising();
   data.propertyDetail = null;
-
   data.count = 0;
   clearInterval(intervalID);
 
@@ -162,8 +163,17 @@ function renderOneListListing(property) {
   $zipCodeDiv.appendChild($zipCode);
 
   $createFavoriteIcon.addEventListener('click', event => {
-    data.favorite.push(property);
-    event.target.closest('i').className = 'fas fa-heart edit-heart hover-effects';
+    if (event.target.getAttribute('class') === 'far fa-heart edit-heart hover-effects') {
+      data.favorite.push(property);
+      event.target.closest('i').className = 'fas fa-heart edit-heart hover-effects';
+    } else if (event.target.getAttribute('class') === 'fas fa-heart edit-heart hover-effects') {
+      for (var i = 0; i < data.favorite.length; i++) {
+        if (data.favorite[i].property_id === property.property_id) {
+          data.favorite.splice(i, 1);
+          $createFavoriteIcon.setAttribute('class', 'far fa-heart edit-heart hover-effects');
+        }
+      }
+    }
   });
 
   return $columnThird;
@@ -247,7 +257,7 @@ function renderOneListingDetail(propertyDetail) {
   $createAreaContent.textContent = 'Area';
   var $createAreaContentDetail = document.createElement('p');
   $createAreaContentDetail.setAttribute('class', 'detail-title');
-  $createAreaContentDetail.textContent = propertyDetail.description.sqft;
+  $createAreaContentDetail.textContent = propertyDetail.description.sqft + ' sqft';
 
   var $createIconColumnhalfType = document.createElement('div');
   $createIconColumnhalfType.setAttribute('class', 'column-half add-overlay hover-effect');
@@ -397,8 +407,13 @@ function renderOneListingDetail(propertyDetail) {
   $createAverageDiv.appendChild($createAverage);
 
   $createDetailHeart.addEventListener('click', event => {
-    data.favorite.push(propertyDetail);
-    event.target.closest('i').className = 'fas fa-heart edit-detail-heart hover-effects';
+    if (event.target.getAttribute('class') === 'far fa-heart edit-detail-heart hover-effects') {
+      data.favorite.push(propertyDetail);
+      event.target.closest('i').className = 'fas fa-heart edit-detail-heart hover-effects';
+    } else if (data.favorite.some(function (favorite) { return favorite.property_id === propertyDetail.property_id; })) {
+      data.favorite.splice(propertyDetail, 1);
+      $createDetailHeart.setAttribute('class', 'far fa-heart edit-detail-heart hover-effects');
+    }
   });
 
   var $selectAllIcon = document.querySelectorAll('.for-Dom-select-detail');
@@ -463,13 +478,25 @@ function renderListingDetail() {
 }
 
 function showFavoriteList() {
-  data.count = 0;
-  empty($favoriteListingRow);
-  $listingSection.className = 'listing-section hidden';
-  $searchSection.className = 'search-section hidden';
-  $listingDetailRow.className = 'listing-detail hidden';
-  $favoriteSection.className = 'favorite-section';
-  for (var i = 0; i < data.favorite.length; i++) {
-    $favoriteListingRow.appendChild(renderOneListListing(data.favorite[i]));
+  if (data.favorite.length === 0) {
+    empty($favoriteListingRow);
+    data.count = 0;
+    $listingSection.className = 'listing-section hidden';
+    $searchSection.className = 'search-section hidden';
+    $listingDetailRow.className = 'listing-detail hidden';
+    $favoriteSection.className = 'favorite-section';
+    $noFavorite.className = 'row';
+  } else if (data.favorite.length !== 0) {
+    $noFavorite.className = 'row hidden';
+    data.count = 0;
+    empty($favoriteListingRow);
+    $listingSection.className = 'listing-section hidden';
+    $searchSection.className = 'search-section hidden';
+    $listingDetailRow.className = 'listing-detail hidden';
+    $favoriteSection.className = 'favorite-section';
+    for (var i = 0; i < data.favorite.length; i++) {
+      $favoriteListingRow.appendChild(renderOneListListing(data.favorite[i]));
+    }
   }
+
 }

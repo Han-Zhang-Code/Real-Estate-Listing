@@ -29,10 +29,11 @@ function submited(event) {
   event.preventDefault();
   var cityName = $cityName.value;
   var state = $state.value;
-  const datas = null;
-  const xhr = new XMLHttpRequest();
+  var datas = null;
+  var xhr = new XMLHttpRequest();
   xhr.withCredentials = true;
-  xhr.open('GET', 'https://real-estate12.p.rapidapi.com/listings/sale?state=' + state + '&city=' + cityName + '&page=1');
+  var page = new URLSearchParams(window.location.search).get('page') || '1';
+  xhr.open('GET', 'https://real-estate12.p.rapidapi.com/listings/sale?state=' + state + '&city=' + cityName + '&page=' + page);
   xhr.responseType = 'json';
   xhr.setRequestHeader('X-RapidAPI-Key', 'd63b704875msheafa5d6283a4eb9p1edc65jsn7724aaf65392');
   xhr.setRequestHeader('X-RapidAPI-Host', 'real-estate12.p.rapidapi.com');
@@ -165,10 +166,13 @@ function renderOneListListing(property) {
     if (event.target.getAttribute('class') === 'far fa-heart edit-heart hover-effects') {
       data.favorite.push(property);
       event.target.closest('i').className = 'fas fa-heart edit-heart hover-effects';
-    } else if (data.favorite.some(function (favorite) { return favorite.property_id === property.property_id; })) {
-      data.favorite.splice(property, 1);
-      //  console.log(data.favorite);
-      $createFavoriteIcon.setAttribute('class', 'far fa-heart edit-heart hover-effects');
+    } else if (event.target.getAttribute('class') === 'fas fa-heart edit-heart hover-effects') {
+      for (var i = 0; i < data.favorite.length; i++) {
+        if (data.favorite[i].property_id === property.property_id) {
+          data.favorite.splice(i, 1);
+          $createFavoriteIcon.setAttribute('class', 'far fa-heart edit-heart hover-effects');
+        }
+      }
     }
   });
 
@@ -253,7 +257,7 @@ function renderOneListingDetail(propertyDetail) {
   $createAreaContent.textContent = 'Area';
   var $createAreaContentDetail = document.createElement('p');
   $createAreaContentDetail.setAttribute('class', 'detail-title');
-  $createAreaContentDetail.textContent = propertyDetail.description.sqft;
+  $createAreaContentDetail.textContent = propertyDetail.description.sqft + ' sqft';
 
   var $createIconColumnhalfType = document.createElement('div');
   $createIconColumnhalfType.setAttribute('class', 'column-half add-overlay hover-effect');
@@ -496,6 +500,3 @@ function showFavoriteList() {
   }
 
 }
-/* <div class="add-margin-auto">
-  <p>No Favorite Listing Avaliable</p>
-</div> */

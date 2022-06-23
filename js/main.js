@@ -25,55 +25,52 @@ $favoriteBack.addEventListener('click', backFromFavorite);
 $favoriteListingRow.addEventListener('click', selectListing);
 $myFavoriteList.addEventListener('click', showFavoriteList);
 var selectA = document.querySelector('a');
+
+var page = 1;
+var cityName = null;
+var state = null;
+
+selectA.addEventListener('click', event => {
+  event.preventDefault();
+  /// var cityName = $cityName.value;
+  // var state = $state.value;
+  page = page + 1;
+  getData(state, cityName, page);
+});
+
 function submited(event) {
   event.preventDefault();
-  var cityName = $cityName.value;
-  var state = $state.value;
-  var datas = null;
-  var xhr = new XMLHttpRequest();
-  xhr.withCredentials = true;
-  var page = new URLSearchParams(window.location.search).get('page') || '1';
-  xhr.open('GET', 'https://real-estate12.p.rapidapi.com/listings/sale?state=' + state + '&city=' + cityName + '&page=' + page);
-  xhr.responseType = 'json';
-  xhr.setRequestHeader('X-RapidAPI-Key', 'd63b704875msheafa5d6283a4eb9p1edc65jsn7724aaf65392');
-  xhr.setRequestHeader('X-RapidAPI-Host', 'real-estate12.p.rapidapi.com');
-  xhr.send(datas);
-  xhr.addEventListener('load', loadAjax);
-
-  var xhrs = new XMLHttpRequest();
-  xhrs.withCredentials = true;
-  var pages = new URLSearchParams(window.location.search).get('page') || '3';
-  xhrs.open('GET', 'https://real-estate12.p.rapidapi.com/listings/sale?state=' + state + '&city=' + cityName + '&page=' + pages);
-  xhrs.responseType = 'json';
-  xhrs.setRequestHeader('X-RapidAPI-Key', 'd63b704875msheafa5d6283a4eb9p1edc65jsn7724aaf65392');
-  xhrs.setRequestHeader('X-RapidAPI-Host', 'real-estate12.p.rapidapi.com');
-  xhrs.send(datas);
-  xhrs.addEventListener('load', loadAjax);
-
-  function loadAjax() {
-    for (var i = 0; i < xhr.response.properties.length; i++) {
-      data.allProperties.push(xhr.response.properties[i]);
-    }
-    renderListLising();
-
-    selectA.addEventListener('click', event => {
-      data.allProperties = [];
-      for (var i = 0; i < xhrs.response.properties.length; i++) {
-        data.allProperties.push(xhrs.response.properties[i]);
-      }
-      empty($listingRow);
-      renderListLising();
-      // event.preventDefault();
-    });
-
-  }
+  cityName = $cityName.value;
+  state = $state.value;
+  page = 1;
+  // var page = new URLSearchParams(window.location.search).get('page') || '1';
+  getData(state, cityName, page);
 
   $searchSection.className = 'search-section hidden';
   $listingSection.className = 'listing-section';
   $listingDetailRow.className = 'listing-detail hidden';
   $favoriteSection.className = 'favorite-section hidden';
   $submit.reset();
+}
 
+function getData(state, cityName, page) {
+  var xhr = new XMLHttpRequest();
+  xhr.withCredentials = true;
+  xhr.open('GET', 'https://real-estate12.p.rapidapi.com/listings/sale?state=' + state + '&city=' + cityName + '&page=' + page);
+  xhr.responseType = 'json';
+  xhr.setRequestHeader('X-RapidAPI-Key', 'd63b704875msheafa5d6283a4eb9p1edc65jsn7724aaf65392');
+  xhr.setRequestHeader('X-RapidAPI-Host', 'real-estate12.p.rapidapi.com');
+  xhr.send();
+  xhr.addEventListener('load', loadAjax);
+
+  function loadAjax() {
+    data.allProperties = [];
+    for (var i = 0; i < xhr.response.properties.length; i++) {
+      data.allProperties.push(xhr.response.properties[i]);
+    }
+    empty($listingRow);
+    renderListLising();
+  }
 }
 
 function goBackToHome(event) {

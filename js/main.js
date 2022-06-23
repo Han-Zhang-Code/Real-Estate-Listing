@@ -24,17 +24,30 @@ $listingRow.addEventListener('click', selectListing);
 $favoriteBack.addEventListener('click', backFromFavorite);
 $favoriteListingRow.addEventListener('click', selectListing);
 $myFavoriteList.addEventListener('click', showFavoriteList);
-var selectA = document.querySelector('a');
+var $selectNextPage = document.querySelector('.next-page');
+var $selectPreviousPage = document.querySelector('.previous-page');
 
 var page = 1;
 var cityName = null;
 var state = null;
 
-selectA.addEventListener('click', event => {
+$selectNextPage.addEventListener('click', event => {
   event.preventDefault();
-  /// var cityName = $cityName.value;
-  // var state = $state.value;
-  page = page + 1;
+  if (page < Math.floor(data.totalProperties / data.propertiesInOnePage)) {
+    page = page + 1;
+  } else {
+    page = Math.floor(data.totalProperties / data.propertiesInOnePage);
+  }
+  getData(state, cityName, page);
+});
+
+$selectPreviousPage.addEventListener('click', event => {
+  event.preventDefault();
+  if (page > 1) {
+    page = page - 1;
+  } else {
+    page = 1;
+  }
   getData(state, cityName, page);
 });
 
@@ -43,7 +56,6 @@ function submited(event) {
   cityName = $cityName.value;
   state = $state.value;
   page = 1;
-  // var page = new URLSearchParams(window.location.search).get('page') || '1';
   getData(state, cityName, page);
 
   $searchSection.className = 'search-section hidden';
@@ -68,6 +80,8 @@ function getData(state, cityName, page) {
     for (var i = 0; i < xhr.response.properties.length; i++) {
       data.allProperties.push(xhr.response.properties[i]);
     }
+    data.totalProperties = xhr.response.meta.total;
+    data.propertiesInOnePage = xhr.response.meta.count;
     empty($listingRow);
     renderListLising();
   }

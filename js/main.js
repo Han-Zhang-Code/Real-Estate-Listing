@@ -32,7 +32,7 @@ var cityName = null;
 var state = null;
 
 document.querySelector('#close').addEventListener('click', function () {
-  $selectPopUp.style.display = 'none';
+  $selectPopUp.className = 'popup row hidden';
 });
 
 $selectNextPage.addEventListener('click', event => {

@@ -10,7 +10,6 @@
     integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="css/reset.css">
-  <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/styles.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,12 +20,20 @@
   <header>
   </header>
   <main>
+    <div class="popup row hidden">
+      <button id="close">&times;</button>
+      <h2>Error</h2>
+      <p>
+        No property found, please check your input and try again!
+      </p>
+    </div>
+
     <div class="search-section">
       <h3 class="heading">Find it, Tour it, Own it</h3>
       <form class="search-form">
-        <input type="text" class="city-name hover-effect" placeholder="Enter a City Name">
-        <select name="states" class="chose-state hover-effects">
-          <option value="null">Choose a State</option>
+        <input required type="text" class="city-name hover-effect" placeholder="Enter a City Name">
+        <select required name="states" class="chose-state hover-effects">
+          <option value="">Choose a State</option>
           <option value="CA">CA</option>
           <option value="AK">AK</option>
           <option value="AZ">AZ</option>
@@ -84,6 +91,7 @@
           <option value="WV">WV</option>
           <option value="WY">WY</option>
         </select>
+
         <input type="submit" class="search-box hover-effects" value="Search" />
       </form>
     </div>
@@ -91,12 +99,17 @@
       <div class="row add-space-between add-align-items">
         <p class="listing-heading"><i class="fas fa-chevron-left add-padding-right hover-effects"
             id="listingBack"></i>Listing </p>
-
         <p class="favorite hover-effects" id="favorite-list">My Favorite List</p>
       </div>
       <div class="blue-area">
         <div class="container">
+
           <div class="row" id="listing">
+            <div class="lds-ripple add-margin-auto add-color add-margin-top">
+              <div></div>
+              <div></div>
+            </div>
+
           </div>
           <div class="row add-margin-auto">
             <a href="#" class="previous-page hover-effects">Previous Page</a>

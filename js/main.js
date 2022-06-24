@@ -26,10 +26,14 @@ $favoriteListingRow.addEventListener('click', selectListing);
 $myFavoriteList.addEventListener('click', showFavoriteList);
 var $selectNextPage = document.querySelector('.next-page');
 var $selectPreviousPage = document.querySelector('.previous-page');
-
+var $selectPopUp = document.querySelector('.popup');
 var page = 1;
 var cityName = null;
 var state = null;
+
+document.querySelector('#close').addEventListener('click', function () {
+  $selectPopUp.style.display = 'none';
+});
 
 $selectNextPage.addEventListener('click', event => {
   event.preventDefault();
@@ -76,6 +80,11 @@ function getData(state, cityName, page) {
   xhr.addEventListener('load', loadAjax);
 
   function loadAjax() {
+    if (xhr.response.error === 'No property found, please check your parameters and try again!') {
+      goBackToHome();
+      $selectPopUp.className = 'popup row';
+      return;
+    }
     data.allProperties = [];
     for (var i = 0; i < xhr.response.properties.length; i++) {
       data.allProperties.push(xhr.response.properties[i]);
@@ -85,6 +94,7 @@ function getData(state, cityName, page) {
     empty($listingRow);
     renderListLising();
   }
+
 }
 
 function goBackToHome(event) {

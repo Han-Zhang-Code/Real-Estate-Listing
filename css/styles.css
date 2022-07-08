@@ -547,5 +547,7 @@ a {
 
 #map {
   height: 300px;
-  width: 400px;
+  width: 100%;
+  margin-bottom: 40px;
+  margin-top: 20px;
 }

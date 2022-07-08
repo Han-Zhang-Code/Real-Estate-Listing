@@ -17,8 +17,11 @@ var $listingDetailBack = document.querySelector('#listingDetailBack');
 var $listingDetailContainer = document.querySelector('#listingDetail');
 var $myFavoriteList = document.querySelector('#favorite-list');
 var $noFavorite = document.querySelector('#noFavorite');
+var $listingDetailContainerAll = document.querySelector('#listingDetailContainerAll');
 
 var intervalID = null;
+let map;
+let marker;
 
 $submit.addEventListener('submit', submited);
 $listingBack.addEventListener('click', goBackToHome);
@@ -515,13 +518,23 @@ function renderOneListingDetail(propertyDetail) {
       data.count = 0;
     }
   }, 3000);
+  var $createGoogleMapContainerDiv = document.createElement('div');
+  $createGoogleMapContainerDiv.setAttribute('id', 'map');
+  $listingDetailContainer.appendChild($createGoogleMapContainerDiv);
 
+  map = new google.maps.Map($createGoogleMapContainerDiv, {
+    center: { lat: data.propertyDetail.location.address.coordinate.lat, lng: data.propertyDetail.location.address.coordinate.lon },
+    zoom: 8
+  });
+  marker = new google.maps.Marker({
+    position: { lat: data.propertyDetail.location.address.coordinate.lat, lng: data.propertyDetail.location.address.coordinate.lon },
+    map
+  });
   return $listingDetailContainer;
 }
 
 function renderListingDetail() {
   renderOneListingDetail(data.propertyDetail);
-  initMap(data.propertyDetail.location.address.coordinate.lat, data.propertyDetail.location.address.coordinate.lon);
 }
 
 function showFavoriteList() {
@@ -547,13 +560,3 @@ function showFavoriteList() {
   }
 
 }
-let map;
-
-function initMap(latitude, lngitude) {
-  map = new google.maps.Map(document.getElementById('map'), {
-    center: { lat: latitude, lng: lngitude },
-    zoom: 8
-  });
-}
-
-window.initMap = initMap;

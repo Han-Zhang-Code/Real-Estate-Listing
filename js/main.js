@@ -171,14 +171,21 @@ function selectFavoriteListing(event) {
     var propertyId = event.target.closest('.listing').getAttribute('data-propertyid');
     for (var i = 0; i < data.favorite.length; i++) {
       if (data.favorite[i].property_id === propertyId) {
-        data.propertyDetail = data.favorite[i];
+        if (data.favorite[i].property_id !== null) {
+          data.propertyDetail = data.favorite[i];
+          renderListingDetail();
+          $searchSection.className = 'search-section hidden';
+          $listingSection.className = 'listing-section hidden';
+          $listingDetailRow.className = 'listing-detail';
+          $favoriteSection.className = 'favorite-section hidden';
+        }
       }
     }
-    renderListingDetail();
-    $searchSection.className = 'search-section hidden';
-    $listingSection.className = 'listing-section hidden';
-    $listingDetailRow.className = 'listing-detail';
-    $favoriteSection.className = 'favorite-section hidden';
+    // renderListingDetail();
+    // $searchSection.className = 'search-section hidden';
+    // $listingSection.className = 'listing-section hidden';
+    // $listingDetailRow.className = 'listing-detail';
+    // $favoriteSection.className = 'favorite-section hidden';
   } else {
     return 0;
   }

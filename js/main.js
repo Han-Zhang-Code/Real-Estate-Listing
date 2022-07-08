@@ -1,4 +1,7 @@
+/* eslint-disable no-unused-vars */
 /* global data */
+/* global google */
+// eslint-disable-next-line no-unused-vars
 var $cityName = document.querySelector('.city-name');
 var $state = document.querySelector('.chose-state');
 var $submit = document.querySelector('.search-form');
@@ -14,8 +17,11 @@ var $listingDetailBack = document.querySelector('#listingDetailBack');
 var $listingDetailContainer = document.querySelector('#listingDetail');
 var $myFavoriteList = document.querySelector('#favorite-list');
 var $noFavorite = document.querySelector('#noFavorite');
+var $listingDetailContainerAll = document.querySelector('#listingDetailContainerAll');
 
 var intervalID = null;
+let map;
+let marker;
 
 $submit.addEventListener('submit', submited);
 $listingBack.addEventListener('click', goBackToHome);
@@ -512,7 +518,18 @@ function renderOneListingDetail(propertyDetail) {
       data.count = 0;
     }
   }, 3000);
+  var $createGoogleMapContainerDiv = document.createElement('div');
+  $createGoogleMapContainerDiv.setAttribute('id', 'map');
+  $listingDetailContainer.appendChild($createGoogleMapContainerDiv);
 
+  map = new google.maps.Map($createGoogleMapContainerDiv, {
+    center: { lat: data.propertyDetail.location.address.coordinate.lat, lng: data.propertyDetail.location.address.coordinate.lon },
+    zoom: 8
+  });
+  marker = new google.maps.Marker({
+    position: { lat: data.propertyDetail.location.address.coordinate.lat, lng: data.propertyDetail.location.address.coordinate.lon },
+    map
+  });
   return $listingDetailContainer;
 }
 

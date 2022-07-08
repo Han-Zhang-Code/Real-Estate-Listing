@@ -1,4 +1,7 @@
+/* eslint-disable no-unused-vars */
 /* global data */
+/* global google */
+// eslint-disable-next-line no-unused-vars
 var $cityName = document.querySelector('.city-name');
 var $state = document.querySelector('.chose-state');
 var $submit = document.querySelector('.search-form');
@@ -518,6 +521,7 @@ function renderOneListingDetail(propertyDetail) {
 
 function renderListingDetail() {
   renderOneListingDetail(data.propertyDetail);
+  initMap(data.propertyDetail.location.address.coordinate.lat, data.propertyDetail.location.address.coordinate.lon);
 }
 
 function showFavoriteList() {
@@ -543,3 +547,13 @@ function showFavoriteList() {
   }
 
 }
+let map;
+
+function initMap(latitude, lngitude) {
+  map = new google.maps.Map(document.getElementById('map'), {
+    center: { lat: latitude, lng: lngitude },
+    zoom: 8
+  });
+}
+
+window.initMap = initMap;

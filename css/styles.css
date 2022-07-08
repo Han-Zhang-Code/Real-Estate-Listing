@@ -544,3 +544,8 @@ a {
   line-height: 25px;
   padding-bottom: 40px;
 }
+
+#map {
+  height: 300px;
+  width: 400px;
+}

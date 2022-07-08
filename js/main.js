@@ -28,7 +28,7 @@ $listingBack.addEventListener('click', goBackToHome);
 $listingDetailBack.addEventListener('click', goBackToListing);
 $listingRow.addEventListener('click', selectListing);
 $favoriteBack.addEventListener('click', backFromFavorite);
-$favoriteListingRow.addEventListener('click', selectListing);
+$favoriteListingRow.addEventListener('click', selectFavoriteListing);
 $myFavoriteList.addEventListener('click', showFavoriteList);
 var $selectNextPage = document.querySelector('.next-page');
 var $selectPreviousPage = document.querySelector('.previous-page');
@@ -153,6 +153,25 @@ function selectListing(event) {
     for (var i = 0; i < data.allProperties.length; i++) {
       if (data.allProperties[i].property_id === propertyId) {
         data.propertyDetail = data.allProperties[i];
+      }
+    }
+    renderListingDetail();
+    $searchSection.className = 'search-section hidden';
+    $listingSection.className = 'listing-section hidden';
+    $listingDetailRow.className = 'listing-detail';
+    $favoriteSection.className = 'favorite-section hidden';
+  } else {
+    return 0;
+  }
+}
+
+function selectFavoriteListing(event) {
+  empty($listingDetailContainer);
+  if (event.target.matches('img')) {
+    var propertyId = event.target.closest('.listing').getAttribute('data-propertyid');
+    for (var i = 0; i < data.favorite.length; i++) {
+      if (data.favorite[i].property_id === propertyId) {
+        data.propertyDetail = data.favorite[i];
       }
     }
     renderListingDetail();

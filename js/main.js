@@ -537,18 +537,20 @@ function renderOneListingDetail(propertyDetail) {
       data.count = 0;
     }
   }, 3000);
-  var $createGoogleMapContainerDiv = document.createElement('div');
-  $createGoogleMapContainerDiv.setAttribute('id', 'map');
-  $listingDetailContainer.appendChild($createGoogleMapContainerDiv);
+  if (data.propertyDetail.location.address.coordinate !== null) {
+    var $createGoogleMapContainerDiv = document.createElement('div');
+    $createGoogleMapContainerDiv.setAttribute('id', 'map');
+    $listingDetailContainer.appendChild($createGoogleMapContainerDiv);
 
-  map = new google.maps.Map($createGoogleMapContainerDiv, {
-    center: { lat: data.propertyDetail.location.address.coordinate.lat, lng: data.propertyDetail.location.address.coordinate.lon },
-    zoom: 8
-  });
-  marker = new google.maps.Marker({
-    position: { lat: data.propertyDetail.location.address.coordinate.lat, lng: data.propertyDetail.location.address.coordinate.lon },
-    map
-  });
+    map = new google.maps.Map($createGoogleMapContainerDiv, {
+      center: { lat: data.propertyDetail.location.address.coordinate.lat, lng: data.propertyDetail.location.address.coordinate.lon },
+      zoom: 8
+    });
+    marker = new google.maps.Marker({
+      position: { lat: data.propertyDetail.location.address.coordinate.lat, lng: data.propertyDetail.location.address.coordinate.lon },
+      map
+    });
+  }
   return $listingDetailContainer;
 }
 

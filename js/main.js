@@ -181,11 +181,6 @@ function selectFavoriteListing(event) {
         }
       }
     }
-    // renderListingDetail();
-    // $searchSection.className = 'search-section hidden';
-    // $listingSection.className = 'listing-section hidden';
-    // $listingDetailRow.className = 'listing-detail';
-    // $favoriteSection.className = 'favorite-section hidden';
   } else {
     return 0;
   }

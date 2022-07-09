@@ -67,7 +67,7 @@ function submited(event) {
   state = $state.value;
   page = 1;
   getData(state, cityName, page);
-
+  data.view = 'List';
   $searchSection.className = 'search-section hidden';
   $listingSection.className = 'listing-section';
   $listingDetailRow.className = 'listing-detail hidden';
@@ -110,6 +110,7 @@ function goBackToHome(event) {
   $favoriteSection.className = 'favorite-section hidden';
   empty($listingRow);
   data.allProperties = [];
+  data.view = '';
 }
 
 function goBackToListing(event) {
@@ -124,6 +125,7 @@ function goBackToListing(event) {
   data.propertyDetail = null;
   data.count = 0;
   clearInterval(intervalID);
+  data.view = 'List';
 
 }
 function backFromFavorite() {
@@ -135,7 +137,7 @@ function backFromFavorite() {
   empty($listingRow);
   renderListLising();
   data.propertyDetail = null;
-
+  data.view = 'List';
   data.count = 0;
   clearInterval(intervalID);
 }
@@ -160,6 +162,7 @@ function selectListing(event) {
     $listingSection.className = 'listing-section hidden';
     $listingDetailRow.className = 'listing-detail';
     $favoriteSection.className = 'favorite-section hidden';
+    data.view = 'Detail';
   } else {
     return 0;
   }
@@ -178,6 +181,7 @@ function selectFavoriteListing(event) {
           $listingSection.className = 'listing-section hidden';
           $listingDetailRow.className = 'listing-detail';
           $favoriteSection.className = 'favorite-section hidden';
+          data.view = 'Detail';
         }
       }
     }
@@ -240,7 +244,18 @@ function renderOneListListing(property) {
       for (var i = 0; i < data.favorite.length; i++) {
         if (data.favorite[i].property_id === property.property_id) {
           data.favorite.splice(i, 1);
+          if (data.view === 'FavoriteList') { $listing.remove(); }
           $createFavoriteIcon.setAttribute('class', 'far fa-heart edit-heart hover-effects');
+          if (data.favorite.length === 0) {
+            empty($favoriteListingRow);
+            data.count = 0;
+            $listingSection.className = 'listing-section hidden';
+            $searchSection.className = 'search-section hidden';
+            $listingDetailRow.className = 'listing-detail hidden';
+            $favoriteSection.className = 'favorite-section';
+            $noFavorite.className = 'row';
+            data.view = 'FavoriteList';
+          }
         }
       }
     }
@@ -481,8 +496,13 @@ function renderOneListingDetail(propertyDetail) {
       data.favorite.push(propertyDetail);
       event.target.closest('i').className = 'fas fa-heart edit-detail-heart hover-effects';
     } else if (data.favorite.some(function (favorite) { return favorite.property_id === propertyDetail.property_id; })) {
-      data.favorite.splice(propertyDetail, 1);
-      $createDetailHeart.setAttribute('class', 'far fa-heart edit-detail-heart hover-effects');
+      for (var i = 0; i < data.favorite.length; i++) {
+        if (data.favorite[i].property_id === propertyDetail.property_id) {
+          data.favorite.splice(i, 1);
+          $createDetailHeart.setAttribute('class', 'far fa-heart edit-detail-heart hover-effects');
+        }
+      }
+
     }
   });
 
@@ -569,6 +589,7 @@ function showFavoriteList() {
     $listingDetailRow.className = 'listing-detail hidden';
     $favoriteSection.className = 'favorite-section';
     $noFavorite.className = 'row';
+    data.view = 'FavoriteList';
   } else if (data.favorite.length !== 0) {
     $noFavorite.className = 'row hidden';
     data.count = 0;
@@ -580,6 +601,7 @@ function showFavoriteList() {
     for (var i = 0; i < data.favorite.length; i++) {
       $favoriteListingRow.appendChild(renderOneListListing(data.favorite[i]));
     }
+    data.view = 'FavoriteList';
   }
 
 }

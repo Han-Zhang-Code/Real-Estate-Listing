@@ -5,7 +5,8 @@ var data = {
   count: 0,
   favorite: [],
   totalProperties: 0,
-  propertiesInOnePage: 0
+  propertiesInOnePage: 0,
+  view: ''
 };
 
 var previousTodosJSON = localStorage.getItem('myFavorite');

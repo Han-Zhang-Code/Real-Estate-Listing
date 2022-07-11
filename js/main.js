@@ -246,7 +246,7 @@ function renderOneListListing(property) {
           data.favorite.splice(i, 1);
           if (data.view === 'FavoriteList') { $listing.remove(); }
           $createFavoriteIcon.setAttribute('class', 'far fa-heart edit-heart hover-effects');
-          if (data.favorite.length === 0) {
+          if (data.favorite.length === 0 && data.view === 'FavoriteList') {
             empty($favoriteListingRow);
             data.count = 0;
             $listingSection.className = 'listing-section hidden';

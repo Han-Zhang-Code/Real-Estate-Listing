@@ -444,6 +444,13 @@ select {
 a {
   text-decoration: none;
   color: #143656;
+}
+
+.previous-page {
+  margin: auto;
+}
+
+.next-page {
   margin: auto;
 }
 

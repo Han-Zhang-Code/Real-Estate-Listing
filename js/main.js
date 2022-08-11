@@ -91,6 +91,7 @@ function getData(state, cityName, page) {
       $selectPopUp.className = 'popup row';
       return;
     }
+    $selectPopUp.className = 'popup row hidden';
     data.allProperties = [];
     for (var i = 0; i < xhr.response.properties.length; i++) {
       data.allProperties.push(xhr.response.properties[i]);

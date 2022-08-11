@@ -199,7 +199,7 @@ function renderOneListListing(property) {
   $listing.setAttribute('data-propertyID', property.property_id);
   var $listingImage = document.createElement('img');
   if (property.primary_photo === null) {
-    $listingImage.setAttribute('src', 'images/PhotoNotAvaliable.jpeg');
+    $listingImage.setAttribute('src', 'images/photo-not-avaliable.jpeg');
     $listingImage.setAttribute('alt', 'image not avaliable');
     $listingImage.setAttribute('class', 'columnfull listing-img mouse-hover');
   } else {
@@ -280,7 +280,7 @@ function renderOneListingDetail(propertyDetail) {
   var $createDetailImage = document.createElement('img');
 
   if (propertyDetail.photos === null) {
-    $createDetailImage.setAttribute('src', 'images/PhotoNotAvaliable.jpeg');
+    $createDetailImage.setAttribute('src', 'images/photo-not-avaliable.jpeg');
     $createDetailImage.setAttribute('class', 'column-full hover-effect');
   } else {
     $createDetailImage.setAttribute('src', propertyDetail.photos[0].href);
